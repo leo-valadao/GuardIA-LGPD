@@ -1,0 +1,26 @@
+# =========================================
+# Fim de linha
+# Todo arquivo de texto é salvo no repositório e no disco com LF,
+# em qualquer sistema operacional e independente do core.autocrlf
+# configurado na máquina de cada um.
+# =========================================
+* text=auto eol=lf
+
+# Scripts nativos do Windows precisam de CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# =========================================
+# Binários (nunca converter)
+# =========================================
+*.pdf  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.zip  binary
+*.gz   binary
+*.xlsx binary
+*.docx binary

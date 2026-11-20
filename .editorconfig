@@ -1,0 +1,11 @@
+# Padrão de arquivos do projeto (IntelliJ, VS Code e a maioria dos editores leem este arquivo)
+# https://editorconfig.org
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+[*.{bat,cmd,ps1}]
+end_of_line = crlf

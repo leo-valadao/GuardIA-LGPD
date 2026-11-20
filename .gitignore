@@ -1,0 +1,66 @@
+# =========================================
+# Python
+# =========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+build/
+dist/
+
+# Ambientes virtuais
+.venv/
+venv/
+env/
+
+# Testes, cobertura e linters
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# =========================================
+# Saídas geradas pelo GuardIA (main.py / cli.py)
+# Contêm dados mascarados/sintéticos e relatórios de cada execução;
+# devem ser gerados de novo, não versionados.
+# A amostra de entrada (amostra_100_pessoas_lgpd.csv) continua versionada.
+# =========================================
+/dados_mascarados.csv
+/dados_sinteticos.csv
+/dados_anonimizados.csv
+/relatorio_lgpd.md
+/relatorio.md
+*.log
+
+# =========================================
+# Variáveis de ambiente / segredos
+# (o docker compose lê docker/.env para usuário e senha do Postgres)
+# =========================================
+.env
+.env.*
+!.env.example
+
+# =========================================
+# IDEs e editores
+# Configuração pessoal de cada um; inclui conexões de banco do IntelliJ.
+# =========================================
+.idea/
+*.iml
+.vscode/
+*.swp
+*~
+
+# =========================================
+# Claude Code (configurações locais de cada usuário)
+# =========================================
+.claude/settings.local.json
+CLAUDE.local.md
+
+# =========================================
+# Sistema operacional
+# =========================================
+Thumbs.db
+desktop.ini
+.DS_Store
