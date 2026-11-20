@@ -1,0 +1,33 @@
+name: guardia-lgpd
+
+services:
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: guardia-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-guardia}
+      POSTGRES_USER: ${POSTGRES_USER:-guardia}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-guardia}
+      TZ: America/Sao_Paulo
+      PGTZ: America/Sao_Paulo
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      # Convenção da imagem oficial do postgres: na primeira inicialização
+      # (volume de dados vazio), o entrypoint executa os .sql/.sh que estão
+      # na RAIZ de /docker-entrypoint-initdb.d, em ordem alfabética.
+      # Subpastas são ignoradas, então só o banco-de-dados/mestre.sql roda,
+      # e ele chama os demais scripts (tabelas/, dados/, consultas/) via \ir.
+      # Para rodar de novo: "docker compose down -v" e depois "docker compose up -d".
+      - ../banco-de-dados:/docker-entrypoint-initdb.d:ro
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres-data:
