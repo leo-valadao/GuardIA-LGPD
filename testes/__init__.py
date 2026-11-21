@@ -11,7 +11,7 @@ Arquivos:
     TestRegraDeteccao   Regra de detecção D = F ∨ (W ∧ C) e contexto pelo nome da coluna
     TestTextoLivre      Dados pessoais escritos dentro de textos livres
     TestSubstituidor    Dados sintéticos: dicionário bijetor, formato, DDD, CEP e e-mail feito do nome
-    TestDadosSensiveis  Tipo sanguíneo e filiação sindical (Art. 5º, II)
+    TestDadosSensiveis  Tipo sanguíneo e filiação sindical (Art. 5.º, II)
     TestExcecoes        Erros de conexão e de cópia do banco
     TestMascaraEScore   Máscara total, chaves que viram sintéticas e score de risco (equação 8)
     TestEnumeracoes     Enums (StrEnum) e a tabela de padrões de detecção

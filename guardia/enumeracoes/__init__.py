@@ -7,7 +7,7 @@ do banco ou da IA e usada como chave de dicionário. A vantagem sobre escrever o
 direto no código: um nome digitado errado dá erro na hora, em vez de passar calado.
 
 Arquivos (um por enum):
-  classificacao_do_dado_pessoal.py  ClassificacaoDoDadoPessoal: Classificação LGPD de um tipo de dado pessoal (Art. 5º, I e II).
+  classificacao_do_dado_pessoal.py  ClassificacaoDoDadoPessoal: Classificação LGPD de um tipo de dado pessoal (Art. 5.º, I e II).
   dependencia_da_sequencia.py       DependenciaDaSequencia: Como uma sequence está ligada a uma coluna (coluna deptype da tabela pg_depend do PostgreSQL).
   faixa_de_risco.py                 FaixaDeRisco: Faixa do score de risco R de uma tabela.
   forca_do_padrao.py                ForcaDoPadrao: Força do padrão de um tipo de dado na regra D = F ∨ (W ∧ C) do artigo.

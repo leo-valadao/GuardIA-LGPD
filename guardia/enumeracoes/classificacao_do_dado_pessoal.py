@@ -2,7 +2,7 @@ from enum import StrEnum # Importa o StrEnum, um tipo de enum em que cada opçã
 
 
 class ClassificacaoDoDadoPessoal(StrEnum): # Define o enum com as classificações de dado pessoal da LGPD
-    """Classificação LGPD de um tipo de dado pessoal (Art. 5º, I e II)."""
+    """Classificação LGPD de um tipo de dado pessoal (Art. 5.º, I e II)."""
     DIRETO = 'Dado Pessoal Direto'                    # Identifica a pessoa sozinho
     INDIRETO = 'Dado Pessoal Indireto'                # Identifica a pessoa junto com outros dados
     SENSIVEL_DE_SAUDE = 'Dado Pessoal Sensível (saúde)'                               # Dado sensível sobre a saúde da pessoa

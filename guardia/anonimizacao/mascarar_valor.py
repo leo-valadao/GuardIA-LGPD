@@ -6,13 +6,13 @@ from guardia.utilitarios.verificar_se_esta_vazio import verificar_se_esta_vazio 
 
 
 def mascarar_valor(valor): # Define a função, que recebe o valor a ser censurado
-    """Máscara total: texto → '*' no mesmo tamanho; data → 1º de janeiro do mesmo ano."""
+    """Máscara total: texto → '*' no mesmo tamanho; data → 1.º de janeiro do mesmo ano."""
     if verificar_se_esta_vazio(valor): # Confere se o valor está vazio
         return valor # Valor vazio continua vazio
     if isinstance(valor, datetime.datetime): # Confere se o valor é uma data com hora
-        return valor.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0) # Mantém só o ano: vira 1º de janeiro, à meia-noite
+        return valor.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0) # Mantém só o ano: vira 1.º de janeiro, à meia-noite
     if isinstance(valor, datetime.date): # Confere se o valor é uma data sem hora
-        return valor.replace(month=1, day=1) # Mantém só o ano: vira 1º de janeiro
+        return valor.replace(month=1, day=1) # Mantém só o ano: vira 1.º de janeiro
     if isinstance(valor, (int, float, Decimal)) and not isinstance(valor, bool): # Confere se o valor é um número (verdadeiro e falso não contam)
         return type(valor)(0) # Troca o número por zero, do mesmo tipo do original
     return CARACTERE_DA_MASCARA * len(str(valor).strip()) # Troca o texto por asteriscos, no mesmo tamanho

@@ -14,5 +14,5 @@ class TipoDeDadoPessoal(StrEnum): # Define o enum com os tipos de dado pessoal
     TELEFONE = 'telefone'                        # Número de telefone ou celular
     NOME = 'nome'                                # Nome de pessoa
     CEP = 'cep'                                  # Código de Endereçamento Postal
-    TIPO_SANGUINEO = 'tipo_sanguineo'            # Dado pessoal sensível (Art. 5º, II): saúde
-    FILIACAO_SINDICAL = 'filiacao_sindical'      # Dado pessoal sensível (Art. 5º, II)
+    TIPO_SANGUINEO = 'tipo_sanguineo'            # Dado pessoal sensível (Art. 5.º, II): saúde
+    FILIACAO_SINDICAL = 'filiacao_sindical'      # Dado pessoal sensível (Art. 5.º, II)

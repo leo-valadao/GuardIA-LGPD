@@ -38,7 +38,7 @@ BEGIN
                      FROM UNNEST(v_digitos) digito) > 1;
     END LOOP;
 
-    -- 1º dígito verificador: equações (5) e (6)
+    -- 1.º dígito verificador: equações (5) e (6)
     v_soma := 0;
 
     FOR posicao IN 1..9 LOOP
@@ -50,7 +50,7 @@ BEGIN
                                    ELSE 11 - v_resto
                               END;
 
-    -- 2º dígito verificador: equação (7)
+    -- 2.º dígito verificador: equação (7)
     v_soma := 2 * v_digito_verificador_1;
 
     FOR posicao IN 1..9 LOOP

@@ -16,7 +16,7 @@ REGRAS_DE_CLASSIFICACAO = { # Cria o dicionário: cada tipo de dado pessoal e a 
     TipoDeDadoPessoal.DATA_DE_NASCIMENTO: RegraDeClassificacao(ClassificacaoDoDadoPessoal.INDIRETO, NivelDeRisco.MEDIO,          'Reter apenas o ano'), # Classificação da data de nascimento
     TipoDeDadoPessoal.CEP:                RegraDeClassificacao(ClassificacaoDoDadoPessoal.INDIRETO, NivelDeRisco.BAIXO_OU_MEDIO, 'Ocultar os 3 últimos dígitos'), # Classificação do CEP
 
-    # Dados pessoais sensíveis (Art. 5º, II)
+    # Dados pessoais sensíveis (Art. 5.º, II)
     TipoDeDadoPessoal.TIPO_SANGUINEO:     RegraDeClassificacao(ClassificacaoDoDadoPessoal.SENSIVEL_DE_SAUDE, # Classificação do tipo sanguíneo: dado sensível de saúde
                                                                NivelDeRisco.CRITICO, _MITIGACAO_DE_DADO_SENSIVEL), # Risco crítico e a mitigação de dado sensível
     TipoDeDadoPessoal.FILIACAO_SINDICAL:  RegraDeClassificacao(ClassificacaoDoDadoPessoal.SENSIVEL_DE_FILIACAO_SINDICAL, # Classificação da filiação sindical: dado sensível

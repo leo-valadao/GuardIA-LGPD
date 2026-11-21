@@ -146,7 +146,7 @@ class Substituidor: # Define a classe que gera os valores sintéticos
         """Outro dia do mesmo ano: preserva a idade aproximada."""
         if isinstance(valor, (datetime.date, datetime.datetime)): # Confere se o valor é uma data
             dias_depois_de_primeiro_de_janeiro = self.gerador_aleatorio.randrange(365) # Sorteia um número de dias entre 0 e 364
-            dia_sorteado = datetime.date(valor.year, 1, 1) + datetime.timedelta(days=dias_depois_de_primeiro_de_janeiro) # Soma esses dias ao 1º de janeiro do mesmo ano
+            dia_sorteado = datetime.date(valor.year, 1, 1) + datetime.timedelta(days=dias_depois_de_primeiro_de_janeiro) # Soma esses dias ao 1.º de janeiro do mesmo ano
             if isinstance(valor, datetime.datetime): # Se o valor também tinha hora
                 return valor.replace(year=dia_sorteado.year, month=dia_sorteado.month, day=dia_sorteado.day) # Troca só o dia e o mês, mantendo a hora
             return dia_sorteado # Devolve o dia sorteado

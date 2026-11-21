@@ -65,7 +65,7 @@ def gerar_relatorio(analise_do_banco, resultado=None): # Define a função, que 
         for coluna, categoria in analise_da_tabela.avisos: # Passa por cada aviso da tabela
             avisos.append((analise_da_tabela.nome, coluna, categoria)) # Guarda a tabela, a coluna e a categoria do dado sensível
     if avisos: # Confere se há algum aviso
-        linhas += ['', '#### 4. Atenção: possíveis dados pessoais SENSÍVEIS (Art. 5º, II)', '', # Acrescenta o título da seção 4
+        linhas += ['', '#### 4. Atenção: possíveis dados pessoais SENSÍVEIS (Art. 5.º, II)', '', # Acrescenta o título da seção 4
                    'Estas colunas estão fora dos 7 tipos tratados pelo protótipo e **não foram ' # Explicação da seção 4
                    'alteradas**. Revise manualmente.', '', # Continuação da explicação
                    '| Tabela | Coluna | Categoria |', '|---|---|---|'] # Cabeçalho da tabela da seção 4 e a linha que o separa

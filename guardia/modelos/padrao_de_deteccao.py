@@ -10,7 +10,7 @@ class PadraoDeDeteccao: # Define a classe com as regras para reconhecer um tipo 
     forca:              ForcaDoPadrao # Forte (F): o valor sozinho já basta; fraco (W): o valor também precisa do contexto
     peso:               int           # Peso do tipo no score de risco: quanto maior, mais grave é deixar esse dado exposto
     termos_de_contexto: tuple         # Começos de palavra que, no nome da coluna, indicam esse tipo de dado (o contexto C)
-    sensivel:           bool = False  # Se é dado pessoal sensível (Art. 5º, II), que tem uma proteção maior na LGPD
+    sensivel:           bool = False  # Se é dado pessoal sensível (Art. 5.º, II), que tem uma proteção maior na LGPD
 
     def __post_init__(self): # Define o método que o Python chama logo depois do __init__ criado pelo @dataclass
         # Um termo sozinho pode ser escrito como texto: aqui ele vira uma tupla com esse termo.

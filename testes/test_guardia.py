@@ -181,7 +181,7 @@ class TestSubstituidor(unittest.TestCase): # Define o grupo de testes dos dados 
 
 
 class TestDadosSensiveis(unittest.TestCase): # Define o grupo de testes dos dados sensíveis
-    """Tipo sanguíneo e filiação sindical (Art. 5º, II)."""
+    """Tipo sanguíneo e filiação sindical (Art. 5.º, II)."""
 
     def setUp(self): # Roda antes de cada teste do grupo
         self.achado_de_tipo_sanguineo = classificar_coluna('tipo_sanguineo', ['A+', 'O-', 'AB+', 'B-']) # Detecta uma coluna de tipo sanguíneo
@@ -249,7 +249,7 @@ class TestMascaraEScore(unittest.TestCase): # Define o grupo de testes da censur
 
     def test_mascara_total(self): # Testa a censura de cada tipo de valor
         self.assertEqual(mascarar_valor('52998224725'), '***********') # Confere se o texto virou asteriscos, no mesmo tamanho
-        self.assertEqual(mascarar_valor(datetime.date(1985, 3, 12)), datetime.date(1985, 1, 1)) # Confere se a data virou 1º de janeiro do mesmo ano
+        self.assertEqual(mascarar_valor(datetime.date(1985, 3, 12)), datetime.date(1985, 1, 1)) # Confere se a data virou 1.º de janeiro do mesmo ano
         self.assertIsNone(mascarar_valor(None)) # Confere se o valor vazio continuou vazio
 
     def test_constraint_forca_sintetico(self): # Testa se a coluna de chave recebe dado sintético no modo censura

@@ -1,7 +1,7 @@
 from guardia.utilitarios.dividir_nome_da_coluna_em_palavras import dividir_nome_da_coluna_em_palavras # Importa a função que separa o nome da coluna em palavras
 
 
-# Dados pessoais SENSÍVEIS (Art. 5º, II) ficam fora dos 7 tipos do protótipo:
+# Dados pessoais SENSÍVEIS (Art. 5.º, II) ficam fora dos 7 tipos do protótipo:
 # só geram aviso no relatório, pelo nome da coluna.
 TERMOS_DE_DADOS_SENSIVEIS = { # Cria o dicionário: categoria de dado sensível e os começos de palavra que a indicam
     'saúde':                         ('sangu', 'saude', 'doenc', 'diagnost', 'medic', 'alergi'), # Termos de dados de saúde

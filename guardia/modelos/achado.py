@@ -12,6 +12,6 @@ class Achado: # Define a classe com o resultado da detecção em uma coluna
     peso:                  int               # Peso do tipo no score de risco (Quadro 2 do artigo): quanto maior, mais grave
     taxa:                  float             # Parte da amostra, de 0 a 1, cujos valores combinam com o tipo detectado
     tem_contexto:          bool              # Se o nome da coluna indica esse tipo de dado (o C da regra)
-    sensivel:              bool = False      # Se é dado pessoal sensível (Art. 5º, II): é tratado em todas as linhas, até nas vazias
+    sensivel:              bool = False      # Se é dado pessoal sensível (Art. 5.º, II): é tratado em todas as linhas, até nas vazias
     valores_observados:    tuple = ()        # Só para dado sensível: os valores diferentes da amostra, usados no sorteio do dado sintético
     taxa_de_preenchimento: float = 1.0       # Só para dado sensível: parte das linhas, de 0 a 1, que tem valor, usada no sorteio do dado sintético

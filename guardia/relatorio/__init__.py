@@ -2,7 +2,7 @@
 Relatório em Markdown da análise do banco e da cópia anonimizada.
 
 O relatório não traz nenhum valor real: só nomes de tabelas/colunas, tipos,
-contagens e scores (princípio da necessidade, Art. 6º, III).
+contagens e scores (princípio da necessidade, Art. 6.º, III).
 
 Arquivos (um por função pública):
   constantes.py       ARQUIVO_DO_RELATORIO, CODIFICACAO_DO_RELATORIO: constantes usadas em mais de um arquivo

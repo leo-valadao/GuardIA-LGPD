@@ -14,7 +14,7 @@ PADROES_DE_DETECCAO = { # Cria o dicionário: cada tipo de dado pessoal e as reg
     TipoDeDadoPessoal.NOME:               PadraoDeDeteccao(None,                                     ForcaDoPadrao.FRACO, 1,    'nome'), # Regras do nome de pessoa (não tem expressão regular)
     TipoDeDadoPessoal.CEP:                PadraoDeDeteccao(r'\d{5}-?\d{3}',                          ForcaDoPadrao.FRACO, 1,    'cep'), # Regras do CEP
 
-    # Dados pessoais SENSÍVEIS (Art. 5º, II): Tipo Sanguíneo = dado referente à saúde / genético
+    # Dados pessoais SENSÍVEIS (Art. 5.º, II): Tipo Sanguíneo = dado referente à saúde / genético
     TipoDeDadoPessoal.TIPO_SANGUINEO:     PadraoDeDeteccao(r'(?:AB|A|B|O)\s?[+-]',                   ForcaDoPadrao.FRACO, 3,    'sangu',  sensivel=True), # Regras do tipo sanguíneo
     TipoDeDadoPessoal.FILIACAO_SINDICAL:  PadraoDeDeteccao(r'(?:[Ss]ind|SIND)\w*.*',                 ForcaDoPadrao.FRACO, 3,    'sindic', sensivel=True), # Regras da filiação sindical
 }
