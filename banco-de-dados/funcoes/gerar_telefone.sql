@@ -4,7 +4,7 @@
 --
 -- Recebe o DDD e retorna um celular fictício com 11 dígitos:
 --   DDD (2) + 9 + 8 dígitos, o primeiro deles entre 6 e 9
---   ex.: fn_gerar_telefone('62') -> 62981234567
+--   Ex.: fn_gerar_telefone('62') → 62981234567
 --
 -- Use com o DDD vindo da fn_sortear_localidade() para o telefone
 -- ser compatível com a cidade.

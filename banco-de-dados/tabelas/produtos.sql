@@ -24,7 +24,7 @@ CREATE TABLE produtos (
     data_de_fabricacao    DATE
 );
 
--- VÍNCULO SEQUENCE -> COLUNA
+-- VÍNCULO SEQUENCE → COLUNA
 ALTER SEQUENCE sq_produtos_id_produto
       OWNED BY produtos.id_produto;
 

@@ -19,7 +19,7 @@ CREATE TABLE categorias (
     descricao    VARCHAR(200)
 );
 
--- VÍNCULO SEQUENCE -> COLUNA
+-- VÍNCULO SEQUENCE → COLUNA
 ALTER SEQUENCE sq_categorias_id_categoria
       OWNED BY categorias.id_categoria;
 
@@ -34,4 +34,4 @@ ADD CONSTRAINT uq_categorias_nome
         UNIQUE (nome);
 
 -- FOREIGN KEYS
--- (nenhuma)
+-- (Nenhuma)

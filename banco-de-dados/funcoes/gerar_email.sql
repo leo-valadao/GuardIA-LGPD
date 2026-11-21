@@ -12,7 +12,7 @@
 -- domínio também é sorteado (gmail.com, hotmail.com, ...).
 --
 -- Acentos e cedilha são removidos e tudo fica em minúsculas, como em
--- um e-mail de verdade ("João Araújo" -> joao.araujo).
+-- um e-mail de verdade ("João Araújo" → joao.araujo).
 -- =========================================
 CREATE FUNCTION fn_gerar_email(p_nome_completo VARCHAR)
         RETURNS VARCHAR
@@ -32,7 +32,7 @@ DECLARE
     v_formato      INTEGER;
     v_usuario      TEXT;
 BEGIN
-    -- "João Pedro Araújo" -> {joao, pedro, araujo}
+    -- Separa o nome em partes, em minúsculas e sem acentos
     v_partes := STRING_TO_ARRAY(LOWER(TRANSLATE(p_nome_completo, 'ÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇáàâãäéèêëíìîïóòôõöúùûüç', 'AAAAAEEEEIIIIOOOOOUUUUCaaaaaeeeeiiiiooooouuuuc')), ' ');
     v_nome         := v_partes[1];
     v_nome_do_meio := v_partes[2];

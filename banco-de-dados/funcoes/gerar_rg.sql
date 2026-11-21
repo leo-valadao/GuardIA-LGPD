@@ -7,8 +7,8 @@
 -- O RG não tem uma regra nacional: cada estado tem o seu formato.
 -- O padrão de SP é o mais usado e tem dígito verificador (módulo 11):
 --   S  = d1·2 + d2·3 + d3·4 + d4·5 + d5·6 + d6·7 + d7·8 + d8·9
---   DV = 11 - (S mod 11);  DV = 10 -> 'X';  DV = 11 -> '0'
--- Ex.: 24.678.131-2 -> S = 163, 163 mod 11 = 9, DV = 11 - 9 = 2
+--   DV = 11 - (S mod 11);  DV = 10 → 'X';  DV = 11 → '0'
+-- Ex.: 24.678.131-2 → S = 163, 163 mod 11 = 9, DV = 11 - 9 = 2
 -- =========================================
 CREATE FUNCTION fn_gerar_rg()
         RETURNS VARCHAR

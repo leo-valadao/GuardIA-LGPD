@@ -29,7 +29,7 @@ CREATE TABLE funcionarios (
     id_filial         INTEGER
 );
 
--- VÍNCULO SEQUENCE -> COLUNA
+-- VÍNCULO SEQUENCE → COLUNA
 ALTER SEQUENCE sq_funcionarios_id_funcionario
       OWNED BY funcionarios.id_funcionario;
 

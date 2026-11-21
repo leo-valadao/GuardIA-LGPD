@@ -26,7 +26,7 @@ CREATE TABLE filiais (
     horario_de_funcionamento VARCHAR(100)
 );
 
--- VÍNCULO SEQUENCE -> COLUNA
+-- VÍNCULO SEQUENCE → COLUNA
 ALTER SEQUENCE sq_filiais_id_filial
       OWNED BY filiais.id_filial;
 
@@ -36,4 +36,4 @@ ADD CONSTRAINT pk_filiais
    PRIMARY KEY (id_filial);
 
 -- FOREIGN KEYS
--- (nenhuma)
+-- (Nenhuma)

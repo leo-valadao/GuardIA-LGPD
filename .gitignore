@@ -23,20 +23,15 @@ htmlcov/
 
 # =========================================
 # Saídas geradas pelo GuardIA (main.py / cli.py)
-# Contêm dados mascarados/sintéticos e relatórios de cada execução;
-# devem ser gerados de novo, não versionados.
-# A amostra de entrada (amostra_100_pessoas_lgpd.csv) continua versionada.
+# Relatórios de cada execução: devem ser gerados de novo, não versionados.
 # =========================================
-/dados_mascarados.csv
-/dados_sinteticos.csv
-/dados_anonimizados.csv
 /relatorio_lgpd.md
 /relatorio.md
 *.log
 
 # =========================================
 # Variáveis de ambiente / segredos
-# (o docker compose lê docker/.env para usuário e senha do Postgres)
+# (O docker compose lê docker/.env para usuário e senha do Postgres)
 # =========================================
 .env
 .env.*

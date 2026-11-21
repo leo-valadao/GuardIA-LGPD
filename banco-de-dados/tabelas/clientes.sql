@@ -28,7 +28,7 @@ CREATE TABLE clientes (
     pontos_de_fidelidade INTEGER       DEFAULT 0
 );
 
--- VÍNCULO SEQUENCE -> COLUNA
+-- VÍNCULO SEQUENCE → COLUNA
 ALTER SEQUENCE sq_clientes_id_cliente
       OWNED BY clientes.id_cliente;
 
@@ -38,4 +38,4 @@ ADD CONSTRAINT pk_clientes
    PRIMARY KEY (id_cliente);
 
 -- FOREIGN KEYS
--- (nenhuma)
+-- (Nenhuma)

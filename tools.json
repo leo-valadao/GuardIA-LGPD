@@ -1,83 +1,74 @@
 [
   {
-    "name": "escanear_banco",
-    "description": "Escaneia colunas de um DataFrame em busca de dados pessoais (Nome, CPF, RG, E-mail, Data de Nascimento, Telefone, CEP).",
+    "name": "analisar_banco_dados",
+    "description": "Analisa um banco PostgreSQL em modo somente leitura e retorna o relatório de riscos LGPD em Markdown: colunas e textos livres com dados pessoais (Nome, CPF, RG, E-mail, Data de Nascimento, Telefone, CEP), score de risco por tabela e avisos de dados sensíveis. A senha vem da variável de ambiente PGPASSWORD; nunca peça a senha ao usuário na conversa.",
     "parameters": {
       "type": "object",
       "properties": {
-        "colunas": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Lista com os nomes das colunas da tabela/CSV."
-        }
-      },
-      "required": [
-        "colunas"
-      ]
-    }
-  },
-  {
-    "name": "classificar_dados",
-    "description": "Classifica os dados encontrados quanto ao nível de risco LGPD e sugere mitigações.",
-    "parameters": {
-      "type": "object",
-      "properties": {
-        "colunas_identificadas": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Lista de colunas de risco identificadas na detecção."
-        }
-      },
-      "required": [
-        "colunas_identificadas"
-      ]
-    }
-  },
-  {
-    "name": "calcular_precisao_revocacao",
-    "description": "Calcula a precisão e a revocação da detecção de dados sensíveis.",
-    "parameters": {
-      "type": "object",
-      "properties": {
-        "colunas_identificadas": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "host": {
+          "type": "string",
+          "description": "Endereço do servidor do banco (ex.: localhost)."
         },
-        "colunas_reais_esperadas": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "porta": {
+          "type": "integer",
+          "description": "Porta do servidor. Padrão: 5432."
+        },
+        "banco": {
+          "type": "string",
+          "description": "Nome do banco de dados a ser analisado."
+        },
+        "usuario": {
+          "type": "string",
+          "description": "Usuário do banco de dados."
         }
       },
       "required": [
-        "colunas_identificadas",
-        "colunas_reais_esperadas"
+        "host",
+        "banco",
+        "usuario"
       ]
     }
   },
   {
-    "name": "gerar_relatorio",
-    "description": "Gera um relatório completo em Markdown estruturando riscos e métricas.",
+    "name": "gerar_copia_anonimizada",
+    "description": "Cria um banco NOVO no mesmo servidor com a mesma estrutura do original (tabelas, sequences, PK, FK, índices) e os dados pessoais censurados ou substituídos por dados sintéticos coerentes. O banco original só é lido. Não sobrescreve bancos existentes. Retorna o relatório em Markdown. A senha vem da variável de ambiente PGPASSWORD.",
     "parameters": {
       "type": "object",
       "properties": {
-        "classificacao": {
-          "type": "object"
+        "host": {
+          "type": "string",
+          "description": "Endereço do servidor do banco (ex.: localhost)."
         },
-        "metricas": {
-          "type": "object"
+        "porta": {
+          "type": "integer",
+          "description": "Porta do servidor. Padrão: 5432."
+        },
+        "banco": {
+          "type": "string",
+          "description": "Nome do banco de origem."
+        },
+        "usuario": {
+          "type": "string",
+          "description": "Usuário do banco (precisa da permissão CREATEDB)."
+        },
+        "modo": {
+          "type": "string",
+          "enum": [
+            "mascarar",
+            "sintetico"
+          ],
+          "description": "'mascarar' troca os dados pessoais por * (datas ficam só com o ano); 'sintetico' troca por dados falsos coerentes (CPF válido, e-mail feito a partir do nome, DDD e CEP compatíveis)."
+        },
+        "destino": {
+          "type": "string",
+          "description": "Nome do banco de cópia. Padrão: <banco>_anonimizado."
         }
       },
       "required": [
-        "classificacao",
-        "metricas"
+        "host",
+        "banco",
+        "usuario",
+        "modo"
       ]
     }
   }

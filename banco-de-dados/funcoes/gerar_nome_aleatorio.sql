@@ -3,7 +3,7 @@
 -- Depende de: (nenhuma)
 --
 -- Retorna um nome completo fictício, sempre com as 3 partes:
---   nome + nome do meio + sobrenome   (ex.: Ana Clara Ribeiro)
+--   Nome + nome do meio + sobrenome   (ex.: Ana Clara Ribeiro)
 --
 -- As partes são sorteadas de forma independente a cada chamada:
 --   100 nomes         (50 femininos + 50 masculinos)

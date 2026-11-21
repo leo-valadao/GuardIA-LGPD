@@ -24,7 +24,7 @@ CREATE TABLE atendimentos (
     status         VARCHAR(30)
 );
 
--- VÍNCULO SEQUENCE -> COLUNA
+-- VÍNCULO SEQUENCE → COLUNA
 ALTER SEQUENCE sq_atendimentos_id_atendimento
       OWNED BY atendimentos.id_atendimento;
 
