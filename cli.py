@@ -47,7 +47,7 @@ def _criar_parser(): # Define a função privada que monta o leitor das opções
                         default=ModoDeAnonimizacao.SINTETICO, help='Modo de operação') # Por padrão, gera a cópia com dados sintéticos
     parser.add_argument('--arquivo_do_relatorio', '-r', default=ARQUIVO_DO_RELATORIO, # Opção --arquivo_do_relatorio (ou -r): onde salvar o relatório
                         help='Caminho para salvar o relatório Markdown') # Texto que aparece na ajuda
-    parser.add_argument('--destino', help='Nome do banco de cópia (padrão: <banco>_anonimizado)') # Opção --destino: o nome do banco de cópia
+    parser.add_argument('--destino', help='Nome do banco de cópia (padrão: <banco>_censurado ou <banco>_sintetico, conforme o modo)') # Opção --destino: o nome do banco de cópia
     parser.add_argument('--sobrescrever', action='store_true', # Opção --sobrescrever: sem valor; só de aparecer já fica verdadeira
                         help='Apaga o banco de destino se ele já existir (pede confirmação)') # Texto que aparece na ajuda
     parser.add_argument('--semente', type=int, # Opção --semente: um número inteiro
@@ -85,7 +85,7 @@ def _executar(argumentos, parser): # Define a função privada que recebe as op�
 
     resultado = None # Ainda não há cópia
     if argumentos.modo != APENAS_RELATORIO: # Se o modo pede uma cópia do banco
-        destino = argumentos.destino or sugerir_nome_do_destino(url) # Usa o nome informado para a cópia ou, se não houver, o nome sugerido
+        destino = argumentos.destino or sugerir_nome_do_destino(url, argumentos.modo) # Usa o nome informado para a cópia ou, se não houver, o nome sugerido para o modo
         if destino == url.database: # Confere se o nome da cópia é igual ao do banco original
             raise DestinoIgualAOrigem(destino) # Lança o erro, para o banco original nunca ser apagado
         if verificar_se_banco_existe(url, destino): # Confere se já existe um banco com esse nome

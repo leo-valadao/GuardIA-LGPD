@@ -19,6 +19,6 @@ Arquivos (um por função pública):
   montar_url.py                 montar_url: Monta a URL de conexão do PostgreSQL; valida banco, usuário e porta.
   ocultar_senha_da_url.py       ocultar_senha_da_url: URL para exibir em tela e relatório, com a senha oculta.
   pedir_senha.py                pedir_senha: Lê a senha sem mostrá-la na tela (getpass).
-  sugerir_nome_do_destino.py    sugerir_nome_do_destino: Nome padrão do banco de cópia: <banco de origem>_anonimizado.
+  sugerir_nome_do_destino.py    sugerir_nome_do_destino: Nome padrão do banco de cópia: <banco de origem>_censurado ou <banco de origem>_sintetico, conforme o modo.
   verificar_se_banco_existe.py  verificar_se_banco_existe: True se já existe um banco com esse nome no servidor da URL de origem.
 """

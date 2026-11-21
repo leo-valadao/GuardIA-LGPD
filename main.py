@@ -48,7 +48,7 @@ def main(): # Define a função principal do modo interativo
     resultado = None # Ainda não há cópia
     if escolha in _MODO_DE_CADA_OPCAO: # Se a opção escolhida gera uma cópia do banco
         modo = _MODO_DE_CADA_OPCAO[escolha] # Pega o modo de anonimização da opção
-        nome_sugerido = sugerir_nome_do_destino(url) # Sugere o nome do banco de cópia
+        nome_sugerido = sugerir_nome_do_destino(url, modo) # Sugere o nome do banco de cópia, com o final do modo escolhido
         destino = input(f"Nome do banco de cópia [{nome_sugerido}]: ").strip() or nome_sugerido # Pergunta o nome da cópia; com Enter, usa o sugerido
         if destino == url.database: # Confere se o nome da cópia é igual ao do banco original
             raise DestinoIgualAOrigem(destino) # Lança o erro, para o banco original nunca ser apagado

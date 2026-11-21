@@ -64,7 +64,7 @@ docker compose up -d            # banco "guardia", usuário "guardia", senha "gu
 
 ## 🗄️ Banco de Dados
 
-O GuardIA **nunca altera o banco original**: a conexão de origem é somente leitura. A cópia é criada como um banco **novo no mesmo servidor** (padrão: `<banco>_anonimizado`), com as mesmas tabelas, sequences, PK, FK, UNIQUE, CHECK e índices, e os dados pessoais trocados. O usuário do banco precisa da permissão `CREATEDB`.
+O GuardIA **nunca altera o banco original**: a conexão de origem é somente leitura. A cópia é criada como um banco **novo no mesmo servidor** (padrão: `<banco>_censurado` no modo censura e `<banco>_sintetico` no modo sintético, para as duas cópias poderem existir juntas), com as mesmas tabelas, sequences, PK, FK, UNIQUE, CHECK e índices, e os dados pessoais trocados. O usuário do banco precisa da permissão `CREATEDB`.
 
 ```bash
 # só o relatório de riscos

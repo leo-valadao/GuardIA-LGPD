@@ -15,6 +15,7 @@ from guardia.avaliacao.calcular_precisao_e_revocacao import calcular_precisao_e_
 from guardia.banco.conexao.criar_banco_de_copia import criar_banco_de_copia # Importa a função que cria o banco de cópia
 from guardia.banco.conexao.montar_url import montar_url # Importa a função que monta a URL de conexão com o banco
 from guardia.banco.conexao.converter_texto_em_url import converter_texto_em_url # Importa a função que lê uma URL escrita como texto
+from guardia.banco.conexao.sugerir_nome_do_destino import sugerir_nome_do_destino # Importa a função que sugere o nome do banco de cópia
 from guardia.banco.copia.gerar_copia import gerar_copia # Importa a função que cria a cópia anonimizada do banco
 from guardia.classificacao.calcular_score_de_risco import calcular_score_de_risco # Importa a função que calcula o score de risco
 from guardia.classificacao.classificar_tipo_de_dado import classificar_tipo_de_dado # Importa a função que dá a classificação LGPD de um tipo de dado
@@ -230,6 +231,13 @@ class TestExcecoes(unittest.TestCase): # Define o grupo de testes dos erros do G
         url = montar_url('localhost', 'guardia', 'guardia') # Monta a URL do banco de origem
         self.assertRaises(NomeDeBancoInvalido, criar_banco_de_copia, url, 'Minha Copia') # Confere se um nome com maiúsculas e espaço dá erro
         self.assertRaises(DestinoIgualAOrigem, criar_banco_de_copia, url, 'guardia') # Confere se o nome do banco original dá erro
+
+    def test_nome_sugerido_para_cada_modo(self): # Testa se cada modo sugere um nome diferente para a cópia
+        url = montar_url('localhost', 'guardia', 'guardia') # Monta a URL do banco de origem
+        self.assertEqual(sugerir_nome_do_destino(url, ModoDeAnonimizacao.MASCARAR), 'guardia_censurado') # Confere o nome sugerido no modo censura
+        self.assertEqual(sugerir_nome_do_destino(url, ModoDeAnonimizacao.SINTETICO), 'guardia_sintetico') # Confere o nome sugerido no modo sintético
+        self.assertEqual(sugerir_nome_do_destino(url, 'sintetico'), 'guardia_sintetico') # Confere se o modo escrito como texto também funciona
+        self.assertRaises(ModoInvalido, sugerir_nome_do_destino, url, 'censurar') # Confere se um modo que não existe dá erro de modo inválido
 
     def test_todas_herdam_de_erro_do_guardia(self): # Testa se os erros do GuardIA são todos um ErroDoGuardia
         with self.assertRaises(ErroDoGuardia) as contexto: # Espera que o bloco abaixo lance um ErroDoGuardia

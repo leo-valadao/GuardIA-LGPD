@@ -61,7 +61,7 @@
         },
         "destino": {
           "type": "string",
-          "description": "Nome do banco de cópia. Padrão: <banco>_anonimizado."
+          "description": "Nome do banco de cópia. Padrão: <banco>_censurado no modo 'mascarar' e <banco>_sintetico no modo 'sintetico'."
         }
       },
       "required": [
