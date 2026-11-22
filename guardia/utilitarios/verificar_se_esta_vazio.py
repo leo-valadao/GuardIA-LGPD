@@ -1,4 +1,4 @@
-def verificar_se_esta_vazio(valor): # Define a função, que recebe um valor de qualquer tipo
+def verificar_se_esta_vazio(valor):
     """None ou NaN."""
     if valor is None: # Confere se o valor é None (sem valor nenhum)
         return True # Devolve verdadeiro: o valor está vazio

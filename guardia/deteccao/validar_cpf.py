@@ -3,7 +3,7 @@ import re # Importa o módulo re, de expressões regulares (busca de padrões em
 from guardia.deteccao.calcular_digitos_verificadores_do_cpf import calcular_digitos_verificadores_do_cpf # Importa a função que calcula os 2 dígitos verificadores do CPF
 
 
-def validar_cpf(cpf): # Define a função, que recebe o CPF com ou sem pontuação
+def validar_cpf(cpf):
     """CPF com 11 dígitos, não repetidos, e dígitos verificadores corretos."""
     digitos = re.sub(r'\D', '', str(cpf)) # Remove todos os caracteres que não são digitos.
 

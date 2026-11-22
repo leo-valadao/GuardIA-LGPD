@@ -3,7 +3,7 @@ from sqlalchemy import create_engine, text # Importa a função que conecta no b
 from guardia.banco.conexao.constantes import NIVEL_DE_ISOLAMENTO_SEM_TRANSACAO # Importa o nível de isolamento sem transação
 
 
-def verificar_se_banco_existe(url_de_origem, nome_do_banco): # Define a função, que recebe a URL de origem e o nome do banco procurado
+def verificar_se_banco_existe(url_de_origem, nome_do_banco):
     """True se já existe um banco com esse nome no servidor da URL de origem."""
     engine_administrativa = create_engine(url_de_origem, isolation_level=NIVEL_DE_ISOLAMENTO_SEM_TRANSACAO) # Prepara a conexão com o servidor, sem transação
     try: # Tenta rodar o bloco abaixo; o finally roda no fim, dando certo ou não

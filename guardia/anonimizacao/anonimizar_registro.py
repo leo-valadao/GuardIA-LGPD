@@ -11,7 +11,7 @@ from guardia.utilitarios.verificar_se_esta_vazio import verificar_se_esta_vazio 
 MASCARA_DE_DADO_SENSIVEL = CARACTERE_DA_MASCARA * 8 # Oito asteriscos seguidos
 
 
-def anonimizar_registro(registro, tipos, modo, substituidor, forcar_sintetico=(), achados=None): # Define a função, que recebe a linha da tabela, o tipo de cada coluna, o modo e o substituidor
+def anonimizar_registro(registro, tipos, modo, substituidor, forcar_sintetico=(), achados=None):
     """
     Anonimiza um registro (dict coluna → valor). 'tipos' = {coluna: tipo detectado}.
     Os nomes são tratados primeiro para o e-mail sintético usar o nome sintético da pessoa.

@@ -5,7 +5,7 @@ from guardia.banco.conexao.montar_url import montar_url # Importa a função que
 from guardia.excecoes.senha_nao_informada import SenhaNaoInformada # Importa o erro lançado quando a senha não foi definida
 
 
-def montar_url_com_senha_do_ambiente(host, banco, usuario, porta): # Define a função, que recebe os dados de acesso ao banco
+def montar_url_com_senha_do_ambiente(host, banco, usuario, porta):
     """URL de conexão com a senha lida da variável PGPASSWORD (usada pelas ferramentas da IA)."""
     senha = os.environ.get(VARIAVEL_DE_AMBIENTE_DA_SENHA) # Lê a senha da variável de ambiente; se ela não existir, fica None
 

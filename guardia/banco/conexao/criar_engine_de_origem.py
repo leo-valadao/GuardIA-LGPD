@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine # Importa a função do SQLAlchemy que prepara a conexão com o banco
 
 
-def criar_engine_de_origem(url): # Define a função, que recebe a URL do banco original
+def criar_engine_de_origem(url):
     """Engine do banco original, somente leitura."""
     return create_engine( # Prepara e devolve a conexão com o banco original
         url, # Endereço do banco

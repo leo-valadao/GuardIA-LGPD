@@ -4,7 +4,7 @@ from guardia.banco.conexao.montar_url import montar_url # Importa a função que
 from guardia.banco.conexao.converter_texto_em_url import converter_texto_em_url # Importa a função que lê uma URL escrita como texto
 
 
-def ler_dados_de_conexao(): # Define a função, que não recebe nenhum valor
+def ler_dados_de_conexao():
     """Pergunta os dados de acesso ao banco no terminal."""
     print('Informe o acesso ao banco de dados (Enter aceita o valor entre colchetes).') # Explica como responder às perguntas
     url_digitada = input('URL completa (opcional, ex.: postgresql://usuario@localhost:5432/banco): ').strip() # Pergunta a URL completa e tira os espaços das pontas

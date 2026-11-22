@@ -5,7 +5,7 @@ from guardia.anonimizacao.constantes import CARACTERE_DA_MASCARA # Importa o car
 from guardia.utilitarios.verificar_se_esta_vazio import verificar_se_esta_vazio # Importa a função que diz se um valor está vazio
 
 
-def mascarar_valor(valor): # Define a função, que recebe o valor a ser censurado
+def mascarar_valor(valor):
     """Máscara total: texto → '*' no mesmo tamanho; data → 1.º de janeiro do mesmo ano."""
     if verificar_se_esta_vazio(valor): # Confere se o valor está vazio
         return valor # Valor vazio continua vazio

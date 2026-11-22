@@ -4,7 +4,7 @@ from guardia.banco.conexao.constantes import NIVEL_DE_ISOLAMENTO_SEM_TRANSACAO #
 from guardia.utilitarios.validar_nome_do_banco import validar_nome_do_banco # Importa a função que confere se o nome do banco é válido
 
 
-def apagar_banco(url_de_origem, nome_do_banco): # Define a função, que recebe a URL do banco de origem e o nome do banco a apagar
+def apagar_banco(url_de_origem, nome_do_banco):
     """Remove um banco criado pelo GuardIA (usado quando a cópia falha no meio)."""
     validar_nome_do_banco(nome_do_banco) # Confere se o nome do banco é válido antes de usá-lo no comando
     engine_administrativa = create_engine(url_de_origem, isolation_level=NIVEL_DE_ISOLAMENTO_SEM_TRANSACAO) # Prepara a conexão com o servidor, sem transação

@@ -6,7 +6,7 @@ from guardia.excecoes.destino_igual_a_origem import DestinoIgualAOrigem # Import
 from guardia.utilitarios.validar_nome_do_banco import validar_nome_do_banco # Importa a função que confere se o nome do banco é válido
 
 
-def criar_banco_de_copia(url_de_origem, nome_do_destino, sobrescrever=False): # Define a função, que recebe a URL de origem, o nome da cópia e se pode apagar um banco que já existe
+def criar_banco_de_copia(url_de_origem, nome_do_destino, sobrescrever=False):
     """
     Cria o banco de destino no mesmo servidor e devolve a URL dele.
     Só apaga um banco existente com sobrescrever=True.

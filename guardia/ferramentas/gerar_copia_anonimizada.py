@@ -9,7 +9,7 @@ from guardia.relatorio.gerar_relatorio import gerar_relatorio # Importa a funç�
 from guardia.utilitarios.montar_url_com_senha_do_ambiente import montar_url_com_senha_do_ambiente # Importa a função que monta a URL com a senha da variável de ambiente
 
 
-def gerar_copia_anonimizada(host, banco, usuario, modo, porta=PORTA_PADRAO, destino=None): # Define a ferramenta, que recebe os dados de acesso, o modo e, se houver, o nome do banco de cópia
+def gerar_copia_anonimizada(host, banco, usuario, modo, porta=PORTA_PADRAO, destino=None):
     """Cria um banco novo no mesmo servidor com os dados censurados ('mascarar') ou sintéticos."""
     url = montar_url_com_senha_do_ambiente(host, banco, usuario, porta) # Monta a URL de conexão, com a senha da variável de ambiente
     destino = destino or sugerir_nome_do_destino(url, modo) # Usa o nome informado para a cópia ou, se não houver, o nome sugerido para o modo

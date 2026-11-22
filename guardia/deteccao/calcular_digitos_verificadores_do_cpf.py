@@ -1,4 +1,4 @@
-def calcular_digitos_verificadores_do_cpf(nove_digitos): # Define a função, que recebe o texto com os 9 primeiros dígitos do CPF
+def calcular_digitos_verificadores_do_cpf(nove_digitos):
     """Dígitos verificadores do CPF, equações (5), (6) e (7) do artigo."""
     digitos = [int(caractere) for caractere in nove_digitos] # Transforma o texto com os 9 dígitos em uma lista de números.
 

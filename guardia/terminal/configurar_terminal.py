@@ -13,7 +13,7 @@ VARIAVEIS_DE_TERMINAL_EM_UTF8 = ( # Cria uma tupla (lista que não muda) com os 
 )
 
 
-def configurar_terminal(): # Define a função, que não recebe nenhum valor
+def configurar_terminal():
     """
     Ajusta a saída do programa para os acentos aparecerem certos em qualquer terminal.
     Chame no começo do programa, antes de qualquer print.

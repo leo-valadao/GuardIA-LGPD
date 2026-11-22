@@ -4,7 +4,7 @@ from guardia.banco.conexao.constantes import VARIAVEL_DE_AMBIENTE_DA_SENHA # Imp
 from guardia.banco.conexao.pedir_senha import pedir_senha # Importa a função que pede a senha ao usuário
 
 
-def completar_senha_da_url(url): # Define a função, que recebe a URL de conexão
+def completar_senha_da_url(url):
     """Pede a senha (ou usa PGPASSWORD) quando a URL não tem senha."""
     if url.password: # Confere se a URL já tem senha
         return url # Devolve a URL como está

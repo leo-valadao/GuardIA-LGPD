@@ -4,7 +4,7 @@ from guardia.enumeracoes.tipo_de_dado_pessoal import TipoDeDadoPessoal # Importa
 
 
 @dataclass # Transforma a classe abaixo numa dataclass: uma classe que só guarda dados
-class Trecho: # Define a classe com um dado pessoal achado dentro de um texto
+class Trecho:
     """Dado pessoal encontrado dentro de um texto livre, com a posição em que ele aparece no texto."""
     inicio: int               # Posição do primeiro caractere do trecho no texto (a contagem começa em 0)
     fim:    int               # Posição logo depois do último caractere do trecho

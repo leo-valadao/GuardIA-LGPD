@@ -6,7 +6,7 @@ from guardia.excecoes.nome_de_banco_invalido import NomeDeBancoInvalido # Import
 _NOME_DE_BANCO_VALIDO = re.compile(r'^[a-z_][a-z0-9_]{0,62}$') # Padrão de nome válido: começa com letra minúscula ou "_" e tem até 63 letras, números ou "_"
 
 
-def validar_nome_do_banco(nome_do_banco): # Define a função, que recebe o nome do banco
+def validar_nome_do_banco(nome_do_banco):
     """Lança NomeDeBancoInvalido se o nome não seguir o padrão: minúsculas, números e "_"."""
     if not _NOME_DE_BANCO_VALIDO.match(nome_do_banco): # Confere se o nome não segue o padrão
         raise NomeDeBancoInvalido(nome_do_banco) # Lança o erro avisando que o nome é inválido

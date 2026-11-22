@@ -14,7 +14,7 @@ TERMOS_DE_DADOS_SENSIVEIS = { # Cria o dicionário: categoria de dado sensível 
 }
 
 
-def identificar_dado_sensivel(nome_da_coluna): # Define a função, que recebe o nome de uma coluna
+def identificar_dado_sensivel(nome_da_coluna):
     """Categoria de dado sensível sugerida pelo nome da coluna, ou None."""
     palavras = dividir_nome_da_coluna_em_palavras(nome_da_coluna) # Separa o nome da coluna em palavras
 

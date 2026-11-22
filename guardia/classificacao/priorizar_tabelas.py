@@ -1,7 +1,7 @@
 import statistics # Importa o módulo statistics, que calcula média e desvio padrão
 
 
-def priorizar_tabelas(scores_por_tabela): # Define a função, que recebe o score de risco de cada tabela
+def priorizar_tabelas(scores_por_tabela):
     """
     Marca como prioritárias as tabelas com score maior que a média mais o desvio padrão (R > μ + σ).
     Recebe o score de cada tabela e devolve, para cada uma, True (prioritária) ou False.

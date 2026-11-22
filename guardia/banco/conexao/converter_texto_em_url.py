@@ -6,7 +6,7 @@ from guardia.excecoes.banco_nao_suportado import BancoNaoSuportado # Importa o e
 from guardia.excecoes.url_invalida import UrlInvalida # Importa o erro lançado quando a URL está mal escrita
 
 
-def converter_texto_em_url(texto): # Define a função, que recebe a URL escrita como texto
+def converter_texto_em_url(texto):
     """Aceita 'postgresql://usuario@host:5432/banco' (com ou sem senha)."""
     try: # Tenta ler a URL; se não der, cai no except
         url = make_url(texto) # Lê o texto e transforma numa URL do SQLAlchemy

@@ -1,4 +1,4 @@
-class ErroDoGuardia(Exception): # Define a exceção-mãe do GuardIA como um tipo de Exception, a exceção-mãe do Python
+class ErroDoGuardia(Exception):
     """
     Exceção-mãe de todos os erros do GuardIA.
 

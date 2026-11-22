@@ -23,7 +23,8 @@ _MODO_DE_CADA_OPCAO = { # Cria o dicionário: cada opção do menu e o modo de a
 }
 
 
-def _perguntar_tarefa(): # Define a função privada que mostra o menu e pergunta a opção
+def _perguntar_tarefa():
+    """Mostra o menu e pergunta a opção."""
     print("\n[Passo 2] O que você deseja fazer com esses dados?") # Mostra a pergunta
     print(f"{OpcaoDoMenu.GERAR_RELATORIO} - Gerar Relatório de Riscos (Markdown)") # Mostra a opção 1
     print(f"{OpcaoDoMenu.GERAR_COPIA_CENSURADA} - Gerar cópia do banco com os dados CENSURADOS (substituir por *)") # Mostra a opção 2
@@ -32,7 +33,8 @@ def _perguntar_tarefa(): # Define a função privada que mostra o menu e pergunt
     return input("\nDigite o número da tarefa desejada: ").strip() # Lê a opção digitada, sem espaços nas pontas, e a devolve
 
 
-def main(): # Define a função principal do modo interativo
+def main():
+    """Função principal do modo interativo."""
     print("=== GuardIA-LGPD (Modo Interativo) ===") # Mostra o título do programa
     url = ler_dados_de_conexao() # Pergunta os dados de acesso ao banco
     engine = criar_engine_de_origem(url) # Abre o banco original só para leitura

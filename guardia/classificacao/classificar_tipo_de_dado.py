@@ -28,6 +28,6 @@ _REGRA_DE_TIPO_DESCONHECIDO = RegraDeClassificacao(ClassificacaoDoDadoPessoal.RE
                                                    NivelDeRisco.DESCONHECIDO, 'N/A') # O risco é desconhecido e não há mitigação sugerida
 
 
-def classificar_tipo_de_dado(tipo): # Define a função, que recebe o tipo de dado pessoal
+def classificar_tipo_de_dado(tipo):
     """Classificação LGPD (RegraDeClassificacao) de um tipo de dado pessoal detectado."""
     return REGRAS_DE_CLASSIFICACAO.get(tipo, _REGRA_DE_TIPO_DESCONHECIDO) # Devolve a regra do tipo; se ele não estiver na tabela, devolve a regra de tipo desconhecido

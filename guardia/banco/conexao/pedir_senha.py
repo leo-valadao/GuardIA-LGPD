@@ -4,7 +4,7 @@ import sys # Importa o módulo sys, que dá acesso à entrada do programa
 from guardia.banco.conexao.constantes import VARIAVEL_DE_AMBIENTE_DA_SENHA # Importa o nome da variável de ambiente que guarda a senha
 
 
-def pedir_senha(pergunta): # Define a função, que recebe o texto da pergunta
+def pedir_senha(pergunta):
     """
     Lê a senha sem mostrá-la na tela (getpass).
 

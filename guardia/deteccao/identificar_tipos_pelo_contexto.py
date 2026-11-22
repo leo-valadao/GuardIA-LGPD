@@ -2,7 +2,7 @@ from guardia.deteccao.padroes import PADROES_DE_DETECCAO # Importa a tabela com 
 from guardia.utilitarios.dividir_nome_da_coluna_em_palavras import dividir_nome_da_coluna_em_palavras # Importa a função que separa o nome da coluna em palavras
 
 
-def identificar_tipos_pelo_contexto(nome_da_coluna): # Define a função, que recebe o nome de uma coluna
+def identificar_tipos_pelo_contexto(nome_da_coluna):
     """
     Tipos de dado que o nome da coluna indica (o contexto C da regra).
     Compara o começo de cada palavra do nome: 'telefone_comercial' tem contexto de

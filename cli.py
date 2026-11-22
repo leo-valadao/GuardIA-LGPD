@@ -33,7 +33,8 @@ from guardia.terminal.executar import executar # Importa a função que roda o p
 APENAS_RELATORIO = 'apenas_relatorio' # Nome da opção na linha de comando
 
 
-def _criar_parser(): # Define a função privada que monta o leitor das opções da linha de comando
+def _criar_parser():
+    """Monta o leitor das opções da linha de comando."""
     parser = argparse.ArgumentParser( # Cria o leitor das opções
         description='GuardIA-LGPD CLI: análise e anonimização de bancos de dados PostgreSQL') # Descrição que aparece na ajuda (--help)
     grupo_de_acesso = parser.add_mutually_exclusive_group(required=True) # Cria um grupo em que só uma das opções pode ser usada, e uma delas é obrigatória
@@ -55,18 +56,21 @@ def _criar_parser(): # Define a função privada que monta o leitor das opções
     return parser # Devolve o leitor das opções pronto
 
 
-def _salvar_relatorio(texto, caminho): # Define a função privada que recebe o relatório e o caminho do arquivo
+def _salvar_relatorio(texto, caminho):
+    """Salva o relatório no arquivo do caminho informado e avisa onde ele ficou."""
     with open(caminho, 'w', encoding=CODIFICACAO_DO_RELATORIO) as arquivo: # Abre o arquivo para escrita; ele é fechado sozinho no fim do bloco
         arquivo.write(texto) # Escreve o relatório no arquivo
     print(f'Relatório gerado em: {caminho}') # Avisa onde o relatório foi salvo
 
 
-def _confirmar_sobrescrita(nome_do_banco): # Define a função privada que recebe o nome do banco que seria apagado
+def _confirmar_sobrescrita(nome_do_banco):
+    """Pede para o usuário digitar o nome do banco que seria apagado e diz se ele confirmou."""
     resposta = input(f'O banco "{nome_do_banco}" já existe e será APAGADO. Digite o nome dele para confirmar: ') # Pede para o usuário digitar o nome do banco
     return resposta.strip() == nome_do_banco # Devolve verdadeiro só se o usuário digitou exatamente o nome do banco
 
 
-def _executar(argumentos, parser): # Define a função privada que recebe as opções lidas e o leitor das opções
+def _executar(argumentos, parser):
+    """Confere as opções, analisa o banco, gera a cópia quando o modo pede e salva o relatório; devolve o código de saída."""
     if argumentos.url: # Se o usuário informou a URL completa
         url = converter_texto_em_url(argumentos.url) # Lê a URL
         if url.password: # Confere se a URL tem senha
@@ -104,7 +108,8 @@ def _executar(argumentos, parser): # Define a função privada que recebe as op�
     return 0 # Encerra com o código 0 (terminou bem)
 
 
-def main(lista_de_argumentos=None): # Define a função principal, que pode receber as opções (sem elas, lê da linha de comando)
+def main(lista_de_argumentos=None):
+    """Função principal: lê as opções (da lista recebida ou, sem ela, da linha de comando), roda o programa e devolve o código de saída."""
     parser = _criar_parser() # Monta o leitor das opções
     return _executar(parser.parse_args(lista_de_argumentos), parser) # Lê as opções, roda o programa e devolve o código de saída
 

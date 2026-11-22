@@ -6,14 +6,14 @@ from guardia.enumeracoes.modo_de_anonimizacao import ModoDeAnonimizacao # Import
 from guardia.relatorio.rotulos import ROTULOS_DOS_TIPOS # Importa o nome de cada tipo de dado para mostrar ao usuário
 
 
-def _descrever_deteccao(achado): # Define a função privada que recebe o Achado de uma coluna
+def _descrever_deteccao(achado):
     """Como o dado foi detectado, em texto para o relatório (F ou W ∧ C)."""
     if achado.forca == ForcaDoPadrao.FORTE: # Se o dado foi detectado por padrão forte
         return 'F (padrão forte)' + (' + contexto' if achado.tem_contexto else ', sem contexto') # Devolve o texto do padrão forte, dizendo se também havia contexto
     return 'W ∧ C (padrão fraco + contexto)' # Senão, devolve o texto do padrão fraco com contexto
 
 
-def gerar_relatorio(analise_do_banco, resultado=None): # Define a função, que recebe a análise do banco e, se houver, o resultado da cópia
+def gerar_relatorio(analise_do_banco, resultado=None):
     """Relatório da análise do banco e, se houver, da cópia anonimizada gerada."""
     linhas = [ # Cria a lista com as primeiras linhas do relatório
         '### Relatório de Riscos e Classificação (GuardIA-LGPD)', # Título do relatório

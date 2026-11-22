@@ -10,7 +10,7 @@ FATOR_DE_CONFORMIDADE = { # Cria o dicionário: cada situação de conformidade 
 }
 
 
-def calcular_score_de_risco(tipos_por_campo, total_de_campos, conformidade=SituacaoDeConformidade.NAO_CONFORME): # Define a função, que recebe os tipos de cada campo, o total de campos e a situação de conformidade
+def calcular_score_de_risco(tipos_por_campo, total_de_campos, conformidade=SituacaoDeConformidade.NAO_CONFORME):
     """
     Equação (8): R = 100 · (Σ r_i) / (w_máx · N), com r_i = w_i · c_i.
     tipos_por_campo = lista com os tipos detectados de cada campo com dado pessoal

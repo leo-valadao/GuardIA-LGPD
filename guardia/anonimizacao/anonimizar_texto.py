@@ -4,7 +4,7 @@ from guardia.enumeracoes.modo_de_anonimizacao import ModoDeAnonimizacao # Import
 from guardia.utilitarios.verificar_se_esta_vazio import verificar_se_esta_vazio # Importa a função que diz se um valor está vazio
 
 
-def anonimizar_texto(texto, modo, substituidor, nomes_conhecidos=frozenset()): # Define a função, que recebe o texto, o modo, o substituidor e os nomes conhecidos
+def anonimizar_texto(texto, modo, substituidor, nomes_conhecidos=frozenset()):
     """Troca só os trechos com dado pessoal dentro de um texto livre. Retorna (texto, quantidade_de_trechos)."""
     if verificar_se_esta_vazio(texto): # Confere se o texto está vazio
         return texto, 0 # Devolve o texto como veio, com 0 trechos trocados

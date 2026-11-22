@@ -18,7 +18,7 @@ from guardia.modelos.resultado_da_copia import ResultadoDaCopia # Importa a clas
 TAMANHO_DO_LOTE = 5000 # Quantidade de linhas lidas e gravadas de cada vez
 
 
-def _criar_estrutura_do_banco(engine_de_destino, analise_do_banco): # Define a função privada que recebe a conexão com a cópia e a análise do banco
+def _criar_estrutura_do_banco(engine_de_destino, analise_do_banco):
     """Sequences → tabelas (com PK, FK, UNIQUE, CHECK, índices) → OWNED BY."""
     with engine_de_destino.begin() as conexao_de_destino: # Abre uma transação na cópia; ela é gravada sozinha no fim do bloco
         colocar_entre_aspas = conexao_de_destino.dialect.identifier_preparer.quote # Pega a função que coloca o nome entre aspas, quando o PostgreSQL precisa
@@ -52,7 +52,7 @@ def _criar_estrutura_do_banco(engine_de_destino, analise_do_banco): # Define a f
                 ))
 
 
-def _ajustar_sequencias(engine_de_destino, analise_do_banco): # Define a função privada que recebe a conexão com a cópia e a análise do banco
+def _ajustar_sequencias(engine_de_destino, analise_do_banco):
     """Continua as sequences do ponto em que estão na origem."""
     with engine_de_destino.begin() as conexao_de_destino: # Abre uma transação na cópia; ela é gravada sozinha no fim do bloco
         colocar_entre_aspas = conexao_de_destino.dialect.identifier_preparer.quote # Pega a função que coloca o nome entre aspas, quando o PostgreSQL precisa
@@ -70,7 +70,7 @@ def _ajustar_sequencias(engine_de_destino, analise_do_banco): # Define a funçã
             conexao_de_destino.execute(comando_sql, parametros) # Roda o comando na cópia
 
 
-def _cortar_no_tamanho_da_coluna(valor, coluna): # Define a função privada que recebe um valor e a coluna onde ele vai ser gravado
+def _cortar_no_tamanho_da_coluna(valor, coluna):
     """Valor sintético maior que o VARCHAR(n) da coluna é cortado no tamanho."""
     tamanho_maximo = getattr(coluna.type, 'length', None) # Pega o tamanho máximo da coluna; se ela não tiver, fica None
     if tamanho_maximo and isinstance(valor, str) and len(valor) > tamanho_maximo: # Confere se o valor é um texto maior do que a coluna aceita
@@ -78,8 +78,8 @@ def _cortar_no_tamanho_da_coluna(valor, coluna): # Define a função privada que
     return valor # Devolve o valor como está
 
 
-def gerar_copia(engine_de_origem, url_de_origem, analise_do_banco, modo, nome_do_destino, # Define a função, que recebe a conexão e a URL de origem, a análise, o modo e o nome da cópia
-                sobrescrever=False, semente=None, ao_progredir=print): # E, se houver, se pode apagar um banco que já existe, a semente e a função que mostra o progresso
+def gerar_copia(engine_de_origem, url_de_origem, analise_do_banco, modo, nome_do_destino,
+                sobrescrever=False, semente=None, ao_progredir=print):
     """Cria o banco 'nome_do_destino' com a estrutura da origem e os dados anonimizados."""
     # Aceita o texto ('mascarar' ou 'sintetico', que vem da CLI e da IA) ou o próprio enum
     try: # Tenta converter o modo no enum; se não der, cai no except

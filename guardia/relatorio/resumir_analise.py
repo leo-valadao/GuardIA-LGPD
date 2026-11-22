@@ -1,7 +1,7 @@
 from guardia.relatorio.rotulos import ROTULOS_DOS_TIPOS # Importa o nome de cada tipo de dado para mostrar ao usuário
 
 
-def resumir_analise(analise_do_banco): # Define a função, que recebe a análise do banco
+def resumir_analise(analise_do_banco):
     """Resumo curto para o terminal: colunas e textos com dados pessoais, por tabela."""
     linhas = [] # Lista que vai guardar as linhas do resumo
     for analise_da_tabela in analise_do_banco.tabelas: # Passa pela análise de cada tabela

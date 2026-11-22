@@ -9,7 +9,7 @@ SUFIXO_DE_CADA_MODO = { # Cria o dicionário: cada modo e o final que ele acresc
 }
 
 
-def sugerir_nome_do_destino(url_de_origem, modo): # Define a função, que recebe a URL do banco de origem e o modo da cópia
+def sugerir_nome_do_destino(url_de_origem, modo):
     """Nome padrão do banco de cópia: <banco de origem>_censurado ou <banco de origem>_sintetico, conforme o modo."""
     sufixo = SUFIXO_DE_CADA_MODO.get(modo) # Pega o final do nome do modo; aceita o enum ou o texto do modo
     if sufixo is None: # Confere se o modo não é um dos modos válidos

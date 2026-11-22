@@ -30,22 +30,23 @@ DISTRIBUICAO_DO_TIPO_SANGUINEO = { # Cria o dicionário: cada tipo sanguíneo e 
 TIPOS_NUMERICOS = {TipoDeDadoPessoal.CPF, TipoDeDadoPessoal.TELEFONE, TipoDeDadoPessoal.CEP, TipoDeDadoPessoal.RG} # Conjunto com os tipos numéricos
 
 
-def _extrair_digitos(valor): # Define a função privada que recebe um valor
+def _extrair_digitos(valor):
     """Só os dígitos do valor: "529.982.247-25" → "52998224725"."""
     return re.sub(r'\D', '', str(valor)) # Apaga tudo que não é dígito e devolve o que sobrou
 
 
-def _trocar_digitos(valor_original, digitos_novos): # Define a função privada que recebe o valor original e os dígitos novos
+def _trocar_digitos(valor_original, digitos_novos):
     """Coloca os novos dígitos no lugar dos antigos, mantendo pontos, traços e parênteses."""
     digitos_novos = iter(digitos_novos) # Prepara os dígitos novos para serem usados um de cada vez, em ordem
     return ''.join(next(digitos_novos, caractere) if caractere.isdigit() else caractere # Troca cada dígito pelo próximo dígito novo e mantém o que não é dígito
                    for caractere in str(valor_original)) # Passa por cada caractere do valor original
 
 
-class Substituidor: # Define a classe que gera os valores sintéticos
+class Substituidor:
     """Gera valores sintéticos coerentes, com dicionário bijetor por tipo."""
 
-    def __init__(self, semente=None): # Define o que acontece ao criar o Substituidor, que pode receber uma semente
+    def __init__(self, semente=None):
+        """Prepara os geradores de dados falsos; com a mesma semente, os dados gerados se repetem."""
         self.gerador_de_dados_falsos = Faker('pt_BR') # Cria o gerador de dados falsos em português do Brasil
         self.gerador_aleatorio = random.Random(semente) # Cria o sorteador de números; com a mesma semente, os sorteios se repetem
         if semente is not None: # Confere se foi informada uma semente
@@ -53,7 +54,7 @@ class Substituidor: # Define a classe que gera os valores sintéticos
         self._dicionario_de_real_para_sintetico = {}            # (Tipo, valor real) → valor sintético
         self._valores_sinteticos_usados = defaultdict(set)      # Tipo → valores sintéticos já entregues
 
-    def substituir(self, tipo, valor, nome=None): # Define o método que troca um valor real por um sintético
+    def substituir(self, tipo, valor, nome=None):
         """Valor sintético para 'valor'. 'nome' (sintético) é usado para montar o e-mail."""
         if verificar_se_esta_vazio(valor): # Confere se o valor está vazio
             return valor # Valor vazio continua vazio
@@ -78,7 +79,7 @@ class Substituidor: # Define a classe que gera os valores sintéticos
         tem_o_mesmo_tamanho = len(_extrair_digitos(valor)) == len(valor_sintetico) # Confere se o original e o sintético têm a mesma quantidade de dígitos
         return _trocar_digitos(valor, valor_sintetico) if tem_o_mesmo_tamanho else valor_sintetico # Devolve o sintético no formato do original, com a mesma pontuação, quando dá
 
-    def sortear_dado_sensivel(self, achado): # Define o método que sorteia um valor falso para dado sensível
+    def sortear_dado_sensivel(self, achado):
         """
         Valor sintético para dado SENSÍVEL, sorteado de novo em cada linha (sem dicionário):
         - tipo sanguíneo: pela distribuição da população brasileira;
@@ -92,14 +93,15 @@ class Substituidor: # Define a classe que gera os valores sintéticos
             return None # Não é filiada: o valor fica vazio
         return self.gerador_aleatorio.choice(achado.valores_observados) # É filiada: sorteia um dos sindicatos que apareceram na coluna
 
-    def descartar_dicionario(self): # Define o método que apaga o dicionário de trocas
+    def descartar_dicionario(self):
         """Apaga o dicionário real → sintético: o processo passa a ser irreversível."""
         self._dicionario_de_real_para_sintetico.clear() # Esvazia o dicionário de valor real para valor sintético
         self._valores_sinteticos_usados.clear() # Esvazia a lista de valores sintéticos já usados
 
     # --- Geradores por tipo ------------------------------------------------
 
-    def _gerar_valor_sintetico(self, tipo, valor, nome): # Define o método privado que escolhe o gerador certo para o tipo
+    def _gerar_valor_sintetico(self, tipo, valor, nome):
+        """Escolhe o gerador certo para o tipo e devolve o valor falso."""
         gerador = { # Cria o dicionário: cada tipo e o método que gera o valor falso dele
             TipoDeDadoPessoal.CPF: self._gerar_cpf, # Gerador de CPF
             TipoDeDadoPessoal.RG: self._gerar_rg, # Gerador de RG
@@ -111,10 +113,11 @@ class Substituidor: # Define a classe que gera os valores sintéticos
         }.get(tipo, self._gerar_valor_generico) # Pega o gerador do tipo; se não houver, usa o gerador genérico
         return gerador(valor) # Gera e devolve o valor falso
 
-    def _sortear_numeros(self, quantidade): # Define o método privado que sorteia uma sequência de dígitos
+    def _sortear_numeros(self, quantidade):
+        """Sorteia uma sequência com a quantidade pedida de dígitos."""
         return ''.join(str(self.gerador_aleatorio.randrange(10)) for _ in range(quantidade)) # Sorteia a quantidade pedida de dígitos de 0 a 9 e junta tudo num texto
 
-    def _gerar_cpf(self, valor): # Define o método privado que gera um CPF falso
+    def _gerar_cpf(self, valor):
         """CPF válido: 9 dígitos sorteados (não todos iguais) + os 2 dígitos verificadores."""
         while True: # Repete até sortear 9 dígitos que não sejam todos iguais
             nove_digitos = self._sortear_numeros(9) # Sorteia 9 dígitos
@@ -126,23 +129,24 @@ class Substituidor: # Define a classe que gera os valores sintéticos
             return int(cpf_novo) # Devolve o CPF novo também como número inteiro
         return _trocar_digitos(valor, cpf_novo) if len(_extrair_digitos(valor)) == 11 else cpf_novo # Devolve o CPF novo com a pontuação do original, quando ele tinha 11 dígitos
 
-    def _gerar_rg(self, valor): # Define o método privado que gera um RG falso
+    def _gerar_rg(self, valor):
+        """Gera um RG falso, com a mesma quantidade de dígitos e a mesma pontuação do original."""
         return _trocar_digitos(valor, self._sortear_numeros(len(_extrair_digitos(valor)))) # Sorteia a mesma quantidade de dígitos e mantém a pontuação do original
 
-    def _gerar_telefone(self, valor): # Define o método privado que gera um telefone falso
+    def _gerar_telefone(self, valor):
         """Mantém o DDD (compatível com a cidade) e sorteia o resto; celular mantém o 9."""
         digitos = _extrair_digitos(valor) # Pega só os dígitos do telefone
         digitos_fixos = digitos[:3] if len(digitos) == 11 and digitos[2] == '9' else digitos[:2] # Celular mantém o DDD e o 9; fixo mantém só o DDD
         telefone_novo = digitos_fixos + self._sortear_numeros(len(digitos) - len(digitos_fixos)) # Junta os dígitos mantidos com dígitos sorteados no lugar do resto
         return int(telefone_novo) if isinstance(valor, int) else _trocar_digitos(valor, telefone_novo) # Devolve como número, se o original era número; senão, com a pontuação do original
 
-    def _gerar_cep(self, valor): # Define o método privado que gera um CEP falso
+    def _gerar_cep(self, valor):
         """Mantém os 5 primeiros dígitos (mesma região/cidade) e sorteia os 3 últimos."""
         digitos = _extrair_digitos(valor) # Pega só os dígitos do CEP
         cep_novo = digitos[:5] + self._sortear_numeros(len(digitos) - 5) # Mantém os 5 primeiros dígitos e sorteia o resto
         return int(cep_novo) if isinstance(valor, int) else _trocar_digitos(valor, cep_novo) # Devolve como número, se o original era número; senão, com a pontuação do original
 
-    def _gerar_data(self, valor): # Define o método privado que gera uma data falsa
+    def _gerar_data(self, valor):
         """Outro dia do mesmo ano: preserva a idade aproximada."""
         if isinstance(valor, (datetime.date, datetime.datetime)): # Confere se o valor é uma data
             dias_depois_de_primeiro_de_janeiro = self.gerador_aleatorio.randrange(365) # Sorteia um número de dias entre 0 e 364
@@ -158,7 +162,7 @@ class Substituidor: # Define a classe que gera os valores sintéticos
             return self._gerar_data(data).strftime(formato) # Gera uma data falsa e a devolve como texto, no mesmo formato
         return _trocar_digitos(valor, self._sortear_numeros(len(_extrair_digitos(valor)))) # Se não era uma data conhecida, só troca os dígitos por dígitos sorteados
 
-    def _gerar_nome(self, valor): # Define o método privado que gera um nome falso
+    def _gerar_nome(self, valor):
         """Mesma quantidade de palavras do original (mínimo 2); nome e nome do meio do mesmo gênero."""
         quantidade_de_partes = max(2, min(5, len(str(valor).split()))) # Conta as palavras do nome original, ficando entre 2 e 5
         if self.gerador_aleatorio.random() < 0.5: # Sorteia o gênero, com 50% de chance para cada um
@@ -166,7 +170,8 @@ class Substituidor: # Define a classe que gera os valores sintéticos
         else: # Se não saiu feminino
             gerar_nome_do_genero_sorteado = self.gerador_de_dados_falsos.first_name_male # Vai gerar nomes masculinos
 
-        def sortear_primeiro_nome(): # Define uma função interna que sorteia um nome de uma palavra só
+        def sortear_primeiro_nome():
+            """Sorteia um nome de uma palavra só."""
             while ' ' in (nome := gerar_nome_do_genero_sorteado()):      # O Faker tem nomes compostos ("João Pedro")
                 pass # Não faz nada: só repete o sorteio
             return nome # Devolve o nome sorteado
@@ -183,7 +188,7 @@ class Substituidor: # Define a classe que gera os valores sintéticos
                 sobrenomes.append(sobrenome) # Acrescenta o sobrenome à lista
         return ' '.join(nomes + sobrenomes) # Junta os nomes e os sobrenomes, com um espaço entre eles
 
-    def _gerar_email(self, nome): # Define o método privado que gera um e-mail falso
+    def _gerar_email(self, nome):
         """E-mail feito a partir do nome sintético da pessoa, em um formato sorteado."""
         nome_normalizado = normalizar_texto(nome or self._gerar_nome('x x x')) # Usa o nome sintético da pessoa (ou gera um), em minúsculas e sem acentos
         partes = [re.sub(r'[^a-z]', '', parte) for parte in nome_normalizado.split()] # Separa o nome em palavras e deixa só as letras de cada uma
@@ -207,6 +212,7 @@ class Substituidor: # Define a classe que gera os valores sintéticos
             usuario += str(self.gerador_aleatorio.randrange(100)) # Acrescenta um número de 0 a 99 no fim do usuário
         return f'{usuario}@{self.gerador_aleatorio.choice(DOMINIOS_DE_EMAIL)}' # Junta o usuário com um domínio sorteado e devolve o e-mail
 
-    def _gerar_valor_generico(self, valor): # Define o método privado usado para tipos sem gerador próprio
+    def _gerar_valor_generico(self, valor):
+        """Gera um valor falso para os tipos que não têm gerador próprio."""
         digitos = _extrair_digitos(valor) # Pega só os dígitos do valor
         return _trocar_digitos(valor, self._sortear_numeros(len(digitos))) if digitos else CARACTERE_DA_MASCARA * len(str(valor)) # Troca os dígitos por dígitos sorteados; se não houver dígitos, troca tudo por asteriscos

@@ -76,7 +76,7 @@ _SQL_DOS_OBJETOS_NAO_COPIADOS = text("""
                          """)
 
 
-def _identificar_colunas_de_chave(tabela, metadata): # Define a função privada que recebe uma tabela e a estrutura do banco
+def _identificar_colunas_de_chave(tabela, metadata):
     """Colunas em PK, FK, UNIQUE ou referenciadas por FK de outra tabela."""
     chaves = {} # Dicionário que vai guardar cada coluna de chave e o motivo
     for coluna in tabela.primary_key.columns: # Passa pelas colunas da chave primária
@@ -103,7 +103,7 @@ def _identificar_colunas_de_chave(tabela, metadata): # Define a função privada
     return chaves # Devolve as colunas de chave e os motivos
 
 
-def analisar_banco(engine_de_origem, url_para_exibicao=''): # Define a função, que recebe a conexão com o banco e a URL para mostrar no relatório
+def analisar_banco(engine_de_origem, url_para_exibicao=''):
     """Detecta dados pessoais em todas as tabelas do schema padrão (somente leitura)."""
     metadata = MetaData() # Cria o objeto que vai guardar a estrutura do banco
     metadata.reflect(bind=engine_de_origem) # Lê do banco a estrutura de todas as tabelas

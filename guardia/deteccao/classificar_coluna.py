@@ -20,7 +20,7 @@ _EXPRESSOES_REGULARES_DOS_VALORES = { # Cria o dicionário: cada tipo e a sua ex
 }
 
 
-def classificar_coluna(nome_da_coluna, valores): # Define a função, que recebe o nome da coluna e uma amostra dos seus valores
+def classificar_coluna(nome_da_coluna, valores):
     """Aplica D = F ∨ (W ∧ C) a uma amostra de valores. Retorna um Achado ou None."""
     amostra = [texto for texto in (converter_para_texto(valor) for valor in valores) if texto] # Transforma cada valor em texto e descarta os vazios
 
@@ -31,7 +31,8 @@ def classificar_coluna(nome_da_coluna, valores): # Define a função, que recebe
     total_da_amostra = len(amostra) # Conta quantos valores preenchidos há na amostra
     candidatos = [] # Lista que vai guardar todos os tipos que a coluna pode ser
 
-    def criar_achado(tipo, forca, taxa, tem_contexto): # Define uma função interna que monta um Achado para o tipo
+    def criar_achado(tipo, forca, taxa, tem_contexto):
+        """Monta um Achado para o tipo."""
         padrao = PADROES_DE_DETECCAO[tipo] # Pega as regras do tipo na tabela de padrões
         return Achado(tipo, forca, padrao.peso, taxa, tem_contexto, sensivel=tipo in TIPOS_SENSIVEIS) # Cria e devolve o Achado com os dados do tipo
 

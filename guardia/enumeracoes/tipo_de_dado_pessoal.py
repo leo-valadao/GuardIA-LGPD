@@ -1,7 +1,7 @@
 from enum import StrEnum # Importa o StrEnum, um tipo de enum em que cada opção também é um texto
 
 
-class TipoDeDadoPessoal(StrEnum): # Define o enum com os tipos de dado pessoal
+class TipoDeDadoPessoal(StrEnum):
     """
     Os tipos de dado pessoal que o GuardIA sabe detectar (Quadro 2 do artigo).
     É um StrEnum: cada tipo também é um texto, então pode ser comparado com texto,

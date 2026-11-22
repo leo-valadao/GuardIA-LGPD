@@ -26,7 +26,7 @@ _EXPRESSOES_REGULARES_DOS_TEXTOS = { # Cria o dicionário: cada tipo e a express
 _EXPRESSAO_REGULAR_DE_PALAVRA = re.compile(r"[A-Za-zÀ-ÿ]+") # Padrão de uma palavra: uma ou mais letras seguidas, com ou sem acento
 
 
-def _verificar_contexto_antes_do_valor(texto, inicio, tipo): # Define a função privada que recebe o texto, onde o valor começa e o tipo do valor
+def _verificar_contexto_antes_do_valor(texto, inicio, tipo):
     """True se uma palavra de contexto do tipo aparece pouco antes do valor no texto."""
     palavras = normalizar_texto(texto[:inicio]).split()[-JANELA_DE_CONTEXTO_NO_TEXTO:] # Pega o texto antes do valor, sem acentos, e fica com as últimas 4 palavras
     partes_das_palavras = [parte for palavra in palavras for parte in re.split(r'[^a-z0-9]+', palavra) if parte] # Corta cada palavra em tudo que não é letra nem número
@@ -37,7 +37,7 @@ def _verificar_contexto_antes_do_valor(texto, inicio, tipo): # Define a função
     return any(parte.startswith(termo) for parte in partes_das_palavras for termo in termos_de_contexto) # Devolve verdadeiro se alguma parte começa com algum termo de contexto
 
 
-def _encontrar_nomes_conhecidos(texto, nomes_conhecidos): # Define a função privada que recebe o texto e os nomes de pessoas já conhecidos
+def _encontrar_nomes_conhecidos(texto, nomes_conhecidos):
     """Acha nomes já conhecidos (das colunas de nome) dentro do texto, do mais longo ao mais curto."""
     trechos = [] # Lista que vai guardar os nomes encontrados
     palavras = list(_EXPRESSAO_REGULAR_DE_PALAVRA.finditer(texto)) # Acha todas as palavras do texto, com a posição de cada uma
@@ -56,14 +56,15 @@ def _encontrar_nomes_conhecidos(texto, nomes_conhecidos): # Define a função pr
     return trechos # Devolve a lista de nomes encontrados
 
 
-def escanear_texto(texto, nomes_conhecidos=frozenset()): # Define a função, que recebe o texto e, se houver, os nomes de pessoas conhecidos
+def escanear_texto(texto, nomes_conhecidos=frozenset()):
     """Dados pessoais dentro de um texto livre (ex.: atendimentos.descricao)."""
     texto = converter_para_texto(texto) # Transforma o valor em texto
     if not texto: # Confere se o texto está vazio
         return [] # Texto vazio: devolve uma lista vazia
     trechos = [] # Lista que vai guardar os dados pessoais encontrados
 
-    def verificar_posicao_livre(inicio, fim): # Define uma função interna que diz se um pedaço do texto ainda não foi usado
+    def verificar_posicao_livre(inicio, fim):
+        """Diz se um pedaço do texto ainda não foi usado por nenhum trecho encontrado."""
         return all(fim <= trecho.inicio or inicio >= trecho.fim for trecho in trechos) # Devolve verdadeiro se o pedaço não encosta em nenhum trecho já encontrado
 
     for tipo in _TIPOS_NA_ORDEM_DE_BUSCA: # Procura cada tipo de dado, na ordem definida acima

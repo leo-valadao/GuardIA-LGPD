@@ -4,7 +4,7 @@ from sqlalchemy import MetaData # Importa o MetaData, a classe do SQLAlchemy que
 
 
 @dataclass # Transforma a classe abaixo numa dataclass: uma classe que só guarda dados
-class AnaliseDoBanco: # Define a classe com a análise do banco inteiro
+class AnaliseDoBanco:
     """A análise de todas as tabelas do banco, usada para gerar o relatório e a cópia."""
     url:                  str                                            # Endereço do banco analisado, com a senha escondida (é o que aparece no relatório)
     tabelas:              list                                           # A análise de cada tabela do banco: uma AnaliseDaTabela por tabela

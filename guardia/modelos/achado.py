@@ -5,7 +5,7 @@ from guardia.enumeracoes.tipo_de_dado_pessoal import TipoDeDadoPessoal # Importa
 
 
 @dataclass # Transforma a classe abaixo numa dataclass: uma classe que só guarda dados
-class Achado: # Define a classe com o resultado da detecção em uma coluna
+class Achado:
     """Dado pessoal detectado em uma coluna (resultado da regra D = F ∨ (W ∧ C))."""
     tipo:                  TipoDeDadoPessoal # Tipo de dado pessoal detectado na coluna
     forca:                 ForcaDoPadrao     # Como foi detectado: forte (F, só pelo valor) ou fraco (W, pelo formato junto com o contexto)

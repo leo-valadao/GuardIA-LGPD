@@ -16,7 +16,7 @@ Atenção: um CPF sintético válido pode coincidir com o de uma pessoa real (ri
 
 Arquivos (um por função pública):
   anonimizar_registro.py  anonimizar_registro: Anonimiza um registro (dict coluna → valor). 'tipos' = {coluna: tipo detectado}.
-  anonimizar_texto.py     anonimizar_texto: Troca só os trechos com dado pessoal dentro de um texto livre. Retorna (texto, quantidade_de_trechos).
+  anonimizar_texto.py     anonimizar_texto: Troca só os trechos com dado pessoal num texto livre. Retorna (texto, quantidade_de_trechos).
   constantes.py           CARACTERE_DA_MASCARA: constantes usadas em mais de um arquivo
   mascarar_valor.py       mascarar_valor: Máscara total: texto → '*' no mesmo tamanho; data → 1.º de janeiro do mesmo ano.
   substituidor.py         Substituidor: Gera valores sintéticos coerentes, com dicionário bijetor por tipo.

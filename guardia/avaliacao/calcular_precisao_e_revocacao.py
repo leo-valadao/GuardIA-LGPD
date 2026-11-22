@@ -1,4 +1,4 @@
-def calcular_precisao_e_revocacao(colunas_identificadas, colunas_reais_esperadas): # Define a função, que recebe as colunas que o GuardIA achou e as que de fato têm dado pessoal
+def calcular_precisao_e_revocacao(colunas_identificadas, colunas_reais_esperadas):
     """
     Calcula Precisão (Precision) e Revocação (Recall) da detecção.
     """

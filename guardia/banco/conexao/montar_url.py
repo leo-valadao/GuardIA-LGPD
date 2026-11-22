@@ -4,7 +4,7 @@ from guardia.banco.conexao.constantes import DRIVER, PORTA_PADRAO # Importa o dr
 from guardia.excecoes.dados_de_conexao_invalidos import DadosDeConexaoInvalidos # Importa o erro lançado quando os dados de conexão são inválidos
 
 
-def montar_url(host, banco, usuario, porta=PORTA_PADRAO, senha=None): # Define a função, que recebe os dados de acesso e, se houver, a senha
+def montar_url(host, banco, usuario, porta=PORTA_PADRAO, senha=None):
     """Monta a URL de conexão do PostgreSQL; valida banco, usuário e porta."""
     if not banco or not usuario: # Confere se faltou o nome do banco ou o usuário
         raise DadosDeConexaoInvalidos('o banco e o usuário são obrigatórios.') # Lança o erro de dados de conexão inválidos

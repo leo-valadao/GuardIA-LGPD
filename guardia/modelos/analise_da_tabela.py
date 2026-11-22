@@ -4,7 +4,7 @@ from guardia.enumeracoes.faixa_de_risco import FaixaDeRisco # Importa o enum com
 
 
 @dataclass # Transforma a classe abaixo numa dataclass: uma classe que só guarda dados
-class AnaliseDaTabela: # Define a classe com a análise de uma tabela do banco
+class AnaliseDaTabela:
     """O que o GuardIA detectou em uma tabela do banco e o score de risco dela."""
     nome:                         str                 # Nome da tabela no banco
     total_de_linhas:              int                 # Quantidade de linhas da tabela

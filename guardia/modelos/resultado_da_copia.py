@@ -4,7 +4,7 @@ from guardia.enumeracoes.modo_de_anonimizacao import ModoDeAnonimizacao # Import
 
 
 @dataclass # Transforma a classe abaixo numa dataclass: uma classe que só guarda dados
-class ResultadoDaCopia: # Define a classe com o resultado da cópia anonimizada
+class ResultadoDaCopia:
     """O que foi copiado e alterado na cópia anonimizada do banco."""
     destino:         str                                # Endereço do banco de cópia que foi criado, com a senha escondida
     modo:            ModoDeAnonimizacao                 # Como os dados pessoais foram tratados: censura ou dados sintéticos
