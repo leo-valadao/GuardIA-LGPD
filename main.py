@@ -23,16 +23,6 @@ _MODO_DE_CADA_OPCAO = { # Cria o dicionário: cada opção do menu e o modo de a
 }
 
 
-def _perguntar_tarefa():
-    """Mostra o menu e pergunta a opção."""
-    print("\n[Passo 2] O que você deseja fazer com esses dados?") # Mostra a pergunta
-    print(f"{OpcaoDoMenu.GERAR_RELATORIO} - Gerar Relatório de Riscos (Markdown)") # Mostra a opção 1
-    print(f"{OpcaoDoMenu.GERAR_COPIA_CENSURADA} - Gerar cópia do banco com os dados CENSURADOS (substituir por *)") # Mostra a opção 2
-    print(f"{OpcaoDoMenu.GERAR_COPIA_SINTETICA} - Gerar cópia do banco com DADOS SINTÉTICOS (dados falsos e coerentes)") # Mostra a opção 3
-    print(f"{OpcaoDoMenu.SAIR} - Sair") # Mostra a opção 4
-    return input("\nDigite o número da tarefa desejada: ").strip() # Lê a opção digitada, sem espaços nas pontas, e a devolve
-
-
 def main():
     """Função principal do modo interativo."""
     print("=== GuardIA-LGPD (Modo Interativo) ===") # Mostra o título do programa
@@ -71,6 +61,16 @@ def main():
     with open(ARQUIVO_DO_RELATORIO, "w", encoding=CODIFICACAO_DO_RELATORIO) as arquivo: # Abre o arquivo do relatório para escrita; ele é fechado sozinho no fim do bloco
         arquivo.write(gerar_relatorio(analise_do_banco, resultado)) # Monta o relatório e escreve no arquivo
     print(f"\nRelatório salvo em: {ARQUIVO_DO_RELATORIO} (abra no IntelliJ ou em um visualizador de Markdown)") # Avisa onde o relatório foi salvo
+
+
+def _perguntar_tarefa():
+    """Mostra o menu e pergunta a opção."""
+    print("\n[Passo 2] O que você deseja fazer com esses dados?") # Mostra a pergunta
+    print(f"{OpcaoDoMenu.GERAR_RELATORIO} - Gerar Relatório de Riscos (Markdown)") # Mostra a opção 1
+    print(f"{OpcaoDoMenu.GERAR_COPIA_CENSURADA} - Gerar cópia do banco com os dados CENSURADOS (substituir por *)") # Mostra a opção 2
+    print(f"{OpcaoDoMenu.GERAR_COPIA_SINTETICA} - Gerar cópia do banco com DADOS SINTÉTICOS (dados falsos e coerentes)") # Mostra a opção 3
+    print(f"{OpcaoDoMenu.SAIR} - Sair") # Mostra a opção 4
+    return input("\nDigite o número da tarefa desejada: ").strip() # Lê a opção digitada, sem espaços nas pontas, e a devolve
 
 
 if __name__ == "__main__": # Confere se este arquivo foi executado direto (e não importado por outro)

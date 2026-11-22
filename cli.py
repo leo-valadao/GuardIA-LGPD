@@ -33,6 +33,12 @@ from guardia.terminal.executar import executar # Importa a função que roda o p
 APENAS_RELATORIO = 'apenas_relatorio' # Nome da opção na linha de comando
 
 
+def main(lista_de_argumentos=None):
+    """Função principal: lê as opções (da lista recebida ou, sem ela, da linha de comando), roda o programa e devolve o código de saída."""
+    parser = _criar_parser() # Monta o leitor das opções
+    return _executar(parser.parse_args(lista_de_argumentos), parser) # Lê as opções, roda o programa e devolve o código de saída
+
+
 def _criar_parser():
     """Monta o leitor das opções da linha de comando."""
     parser = argparse.ArgumentParser( # Cria o leitor das opções
@@ -106,12 +112,6 @@ def _executar(argumentos, parser):
 
     _salvar_relatorio(gerar_relatorio(analise_do_banco, resultado), argumentos.arquivo_do_relatorio) # Monta o relatório e salva no arquivo
     return 0 # Encerra com o código 0 (terminou bem)
-
-
-def main(lista_de_argumentos=None):
-    """Função principal: lê as opções (da lista recebida ou, sem ela, da linha de comando), roda o programa e devolve o código de saída."""
-    parser = _criar_parser() # Monta o leitor das opções
-    return _executar(parser.parse_args(lista_de_argumentos), parser) # Lê as opções, roda o programa e devolve o código de saída
 
 
 if __name__ == '__main__': # Confere se este arquivo foi executado direto (e não importado por outro)

@@ -18,66 +18,6 @@ from guardia.modelos.resultado_da_copia import ResultadoDaCopia # Importa a clas
 TAMANHO_DO_LOTE = 5000 # Quantidade de linhas lidas e gravadas de cada vez
 
 
-def _criar_estrutura_do_banco(engine_de_destino, analise_do_banco):
-    """Sequences → tabelas (com PK, FK, UNIQUE, CHECK, índices) → OWNED BY."""
-    with engine_de_destino.begin() as conexao_de_destino: # Abre uma transação na cópia; ela é gravada sozinha no fim do bloco
-        colocar_entre_aspas = conexao_de_destino.dialect.identifier_preparer.quote # Pega a função que coloca o nome entre aspas, quando o PostgreSQL precisa
-        for sequencia in analise_do_banco.sequencias: # Passa por cada sequence do banco original
-            if sequencia['deptype'] == DependenciaDaSequencia.CRIADA_PELA_COLUNA_IDENTITY: # Confere se a sequence é de uma coluna IDENTITY
-                continue  # Sequence de coluna IDENTITY: criada junto com a tabela
-            conexao_de_destino.execute(text( # Cria a sequence na cópia
-                f"CREATE SEQUENCE {colocar_entre_aspas(sequencia['nome'])} AS {sequencia['tipo']}" # Nome e tipo da sequence
-                f" START WITH {sequencia['start_value']} INCREMENT BY {sequencia['increment_by']}" # Valor inicial e de quanto em quanto ela anda
-                f" MINVALUE {sequencia['min_value']} MAXVALUE {sequencia['max_value']}" # Menor e maior valor que ela aceita
-                f" CACHE {sequencia['cache_size']} {'CYCLE' if sequencia['cycle'] else 'NO CYCLE'}" # Quantos valores ela reserva e se volta ao início quando chega no máximo
-            ))
-    # Sem isto o SQLAlchemy cria a coluna como SERIAL (com uma sequence nova "tabela_coluna_seq")
-    # em vez de manter o DEFAULT NEXTVAL('sequence_original') da origem.
-    for tabela in analise_do_banco.metadata.tables.values(): # Passa por cada tabela da estrutura do banco
-        for coluna in tabela.columns: # Passa por cada coluna da tabela
-            if coluna.server_default is not None and 'nextval(' in str(coluna.server_default.arg): # Confere se o valor padrão da coluna vem de uma sequence
-                coluna.autoincrement = False # Avisa o SQLAlchemy para não criar uma sequence nova para essa coluna
-
-    analise_do_banco.metadata.create_all(engine_de_destino) # Cria na cópia todas as tabelas, com chaves, constraints e índices
-
-    with engine_de_destino.begin() as conexao_de_destino: # Abre uma transação na cópia; ela é gravada sozinha no fim do bloco
-        colocar_entre_aspas = conexao_de_destino.dialect.identifier_preparer.quote # Pega a função que coloca o nome entre aspas, quando o PostgreSQL precisa
-        for sequencia in analise_do_banco.sequencias: # Passa por cada sequence do banco original
-            if sequencia['deptype'] == DependenciaDaSequencia.PERTENCE_A_UMA_COLUNA: # Confere se a sequence pertence a uma coluna
-                nome_da_sequencia = colocar_entre_aspas(sequencia['nome']) # Prepara o nome da sequence para o comando SQL
-                nome_da_tabela = colocar_entre_aspas(sequencia['tabela']) # Prepara o nome da tabela para o comando SQL
-                nome_da_coluna = colocar_entre_aspas(sequencia['coluna']) # Prepara o nome da coluna para o comando SQL
-                conexao_de_destino.execute(text( # Liga a sequence à sua coluna na cópia
-                    f'ALTER SEQUENCE {nome_da_sequencia} OWNED BY {nome_da_tabela}.{nome_da_coluna}' # Comando SQL que diz a qual coluna a sequence pertence
-                ))
-
-
-def _ajustar_sequencias(engine_de_destino, analise_do_banco):
-    """Continua as sequences do ponto em que estão na origem."""
-    with engine_de_destino.begin() as conexao_de_destino: # Abre uma transação na cópia; ela é gravada sozinha no fim do bloco
-        colocar_entre_aspas = conexao_de_destino.dialect.identifier_preparer.quote # Pega a função que coloca o nome entre aspas, quando o PostgreSQL precisa
-        for sequencia in analise_do_banco.sequencias: # Passa por cada sequence do banco original
-            if sequencia['deptype'] == DependenciaDaSequencia.CRIADA_PELA_COLUNA_IDENTITY: # Se a sequence é de uma coluna IDENTITY
-                comando_sql = text('SELECT SETVAL(PG_GET_SERIAL_SEQUENCE(:tabela, :coluna), :valor, :chamado)') # Comando que acha a sequence pela coluna e muda o valor dela
-                parametros = {'tabela': colocar_entre_aspas(sequencia['tabela']), 'coluna': sequencia['coluna']} # Informa a tabela e a coluna da sequence
-            else: # Se a sequence tem nome próprio
-                comando_sql = text('SELECT SETVAL(CAST(:sequencia AS REGCLASS), :valor, :chamado)') # Comando que muda o valor da sequence pelo nome
-                parametros = {'sequencia': colocar_entre_aspas(sequencia['nome'])} # Informa o nome da sequence
-            if sequencia['last_value'] is None: # Se a sequence nunca foi usada na origem
-                parametros.update(valor=sequencia['start_value'], chamado=False) # Volta ao valor inicial, sem marcá-lo como já usado
-            else: # Se a sequence já foi usada na origem
-                parametros.update(valor=sequencia['last_value'], chamado=True) # Continua do último valor usado na origem
-            conexao_de_destino.execute(comando_sql, parametros) # Roda o comando na cópia
-
-
-def _cortar_no_tamanho_da_coluna(valor, coluna):
-    """Valor sintético maior que o VARCHAR(n) da coluna é cortado no tamanho."""
-    tamanho_maximo = getattr(coluna.type, 'length', None) # Pega o tamanho máximo da coluna; se ela não tiver, fica None
-    if tamanho_maximo and isinstance(valor, str) and len(valor) > tamanho_maximo: # Confere se o valor é um texto maior do que a coluna aceita
-        return valor[:tamanho_maximo] # Devolve só o começo do texto, no tamanho da coluna
-    return valor # Devolve o valor como está
-
-
 def gerar_copia(engine_de_origem, url_de_origem, analise_do_banco, modo, nome_do_destino,
                 sobrescrever=False, semente=None, ao_progredir=print):
     """Cria o banco 'nome_do_destino' com a estrutura da origem e os dados anonimizados."""
@@ -150,3 +90,63 @@ def gerar_copia(engine_de_origem, url_de_origem, analise_do_banco, modo, nome_do
         engine_de_destino.dispose() # Fecha as conexões com a cópia
 
     return resultado # Devolve o resultado da cópia
+
+
+def _criar_estrutura_do_banco(engine_de_destino, analise_do_banco):
+    """Sequences → tabelas (com PK, FK, UNIQUE, CHECK, índices) → OWNED BY."""
+    with engine_de_destino.begin() as conexao_de_destino: # Abre uma transação na cópia; ela é gravada sozinha no fim do bloco
+        colocar_entre_aspas = conexao_de_destino.dialect.identifier_preparer.quote # Pega a função que coloca o nome entre aspas, quando o PostgreSQL precisa
+        for sequencia in analise_do_banco.sequencias: # Passa por cada sequence do banco original
+            if sequencia['deptype'] == DependenciaDaSequencia.CRIADA_PELA_COLUNA_IDENTITY: # Confere se a sequence é de uma coluna IDENTITY
+                continue  # Sequence de coluna IDENTITY: criada junto com a tabela
+            conexao_de_destino.execute(text( # Cria a sequence na cópia
+                f"CREATE SEQUENCE {colocar_entre_aspas(sequencia['nome'])} AS {sequencia['tipo']}" # Nome e tipo da sequence
+                f" START WITH {sequencia['start_value']} INCREMENT BY {sequencia['increment_by']}" # Valor inicial e de quanto em quanto ela anda
+                f" MINVALUE {sequencia['min_value']} MAXVALUE {sequencia['max_value']}" # Menor e maior valor que ela aceita
+                f" CACHE {sequencia['cache_size']} {'CYCLE' if sequencia['cycle'] else 'NO CYCLE'}" # Quantos valores ela reserva e se volta ao início quando chega no máximo
+            ))
+    # Sem isto o SQLAlchemy cria a coluna como SERIAL (com uma sequence nova "tabela_coluna_seq")
+    # em vez de manter o DEFAULT NEXTVAL('sequence_original') da origem.
+    for tabela in analise_do_banco.metadata.tables.values(): # Passa por cada tabela da estrutura do banco
+        for coluna in tabela.columns: # Passa por cada coluna da tabela
+            if coluna.server_default is not None and 'nextval(' in str(coluna.server_default.arg): # Confere se o valor padrão da coluna vem de uma sequence
+                coluna.autoincrement = False # Avisa o SQLAlchemy para não criar uma sequence nova para essa coluna
+
+    analise_do_banco.metadata.create_all(engine_de_destino) # Cria na cópia todas as tabelas, com chaves, constraints e índices
+
+    with engine_de_destino.begin() as conexao_de_destino: # Abre uma transação na cópia; ela é gravada sozinha no fim do bloco
+        colocar_entre_aspas = conexao_de_destino.dialect.identifier_preparer.quote # Pega a função que coloca o nome entre aspas, quando o PostgreSQL precisa
+        for sequencia in analise_do_banco.sequencias: # Passa por cada sequence do banco original
+            if sequencia['deptype'] == DependenciaDaSequencia.PERTENCE_A_UMA_COLUNA: # Confere se a sequence pertence a uma coluna
+                nome_da_sequencia = colocar_entre_aspas(sequencia['nome']) # Prepara o nome da sequence para o comando SQL
+                nome_da_tabela = colocar_entre_aspas(sequencia['tabela']) # Prepara o nome da tabela para o comando SQL
+                nome_da_coluna = colocar_entre_aspas(sequencia['coluna']) # Prepara o nome da coluna para o comando SQL
+                conexao_de_destino.execute(text( # Liga a sequence à sua coluna na cópia
+                    f'ALTER SEQUENCE {nome_da_sequencia} OWNED BY {nome_da_tabela}.{nome_da_coluna}' # Comando SQL que diz a qual coluna a sequence pertence
+                ))
+
+
+def _ajustar_sequencias(engine_de_destino, analise_do_banco):
+    """Continua as sequences do ponto em que estão na origem."""
+    with engine_de_destino.begin() as conexao_de_destino: # Abre uma transação na cópia; ela é gravada sozinha no fim do bloco
+        colocar_entre_aspas = conexao_de_destino.dialect.identifier_preparer.quote # Pega a função que coloca o nome entre aspas, quando o PostgreSQL precisa
+        for sequencia in analise_do_banco.sequencias: # Passa por cada sequence do banco original
+            if sequencia['deptype'] == DependenciaDaSequencia.CRIADA_PELA_COLUNA_IDENTITY: # Se a sequence é de uma coluna IDENTITY
+                comando_sql = text('SELECT SETVAL(PG_GET_SERIAL_SEQUENCE(:tabela, :coluna), :valor, :chamado)') # Comando que acha a sequence pela coluna e muda o valor dela
+                parametros = {'tabela': colocar_entre_aspas(sequencia['tabela']), 'coluna': sequencia['coluna']} # Informa a tabela e a coluna da sequence
+            else: # Se a sequence tem nome próprio
+                comando_sql = text('SELECT SETVAL(CAST(:sequencia AS REGCLASS), :valor, :chamado)') # Comando que muda o valor da sequence pelo nome
+                parametros = {'sequencia': colocar_entre_aspas(sequencia['nome'])} # Informa o nome da sequence
+            if sequencia['last_value'] is None: # Se a sequence nunca foi usada na origem
+                parametros.update(valor=sequencia['start_value'], chamado=False) # Volta ao valor inicial, sem marcá-lo como já usado
+            else: # Se a sequence já foi usada na origem
+                parametros.update(valor=sequencia['last_value'], chamado=True) # Continua do último valor usado na origem
+            conexao_de_destino.execute(comando_sql, parametros) # Roda o comando na cópia
+
+
+def _cortar_no_tamanho_da_coluna(valor, coluna):
+    """Valor sintético maior que o VARCHAR(n) da coluna é cortado no tamanho."""
+    tamanho_maximo = getattr(coluna.type, 'length', None) # Pega o tamanho máximo da coluna; se ela não tiver, fica None
+    if tamanho_maximo and isinstance(valor, str) and len(valor) > tamanho_maximo: # Confere se o valor é um texto maior do que a coluna aceita
+        return valor[:tamanho_maximo] # Devolve só o começo do texto, no tamanho da coluna
+    return valor # Devolve o valor como está

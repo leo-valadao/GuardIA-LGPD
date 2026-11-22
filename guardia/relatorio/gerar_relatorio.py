@@ -6,13 +6,6 @@ from guardia.enumeracoes.modo_de_anonimizacao import ModoDeAnonimizacao # Import
 from guardia.relatorio.rotulos import ROTULOS_DOS_TIPOS # Importa o nome de cada tipo de dado para mostrar ao usuário
 
 
-def _descrever_deteccao(achado):
-    """Como o dado foi detectado, em texto para o relatório (F ou W ∧ C)."""
-    if achado.forca == ForcaDoPadrao.FORTE: # Se o dado foi detectado por padrão forte
-        return 'F (padrão forte)' + (' + contexto' if achado.tem_contexto else ', sem contexto') # Devolve o texto do padrão forte, dizendo se também havia contexto
-    return 'W ∧ C (padrão fraco + contexto)' # Senão, devolve o texto do padrão fraco com contexto
-
-
 def gerar_relatorio(analise_do_banco, resultado=None):
     """Relatório da análise do banco e, se houver, da cópia anonimizada gerada."""
     linhas = [ # Cria a lista com as primeiras linhas do relatório
@@ -123,3 +116,10 @@ def gerar_relatorio(analise_do_banco, resultado=None):
             linhas.append(f'* Não copiado ({tipo}): {", ".join(sorted(nomes_dos_objetos))}') # Acrescenta a linha com os nomes do tipo, em ordem alfabética
     linhas.append('* O GuardIA é uma ferramenta de apoio e não substitui a análise jurídica.') # Acrescenta o aviso final
     return '\n'.join(linhas) + '\n' # Junta todas as linhas, uma embaixo da outra, e devolve o relatório
+
+
+def _descrever_deteccao(achado):
+    """Como o dado foi detectado, em texto para o relatório (F ou W ∧ C)."""
+    if achado.forca == ForcaDoPadrao.FORTE: # Se o dado foi detectado por padrão forte
+        return 'F (padrão forte)' + (' + contexto' if achado.tem_contexto else ', sem contexto') # Devolve o texto do padrão forte, dizendo se também havia contexto
+    return 'W ∧ C (padrão fraco + contexto)' # Senão, devolve o texto do padrão fraco com contexto

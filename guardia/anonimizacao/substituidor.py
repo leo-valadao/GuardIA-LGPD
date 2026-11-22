@@ -30,18 +30,6 @@ DISTRIBUICAO_DO_TIPO_SANGUINEO = { # Cria o dicionário: cada tipo sanguíneo e 
 TIPOS_NUMERICOS = {TipoDeDadoPessoal.CPF, TipoDeDadoPessoal.TELEFONE, TipoDeDadoPessoal.CEP, TipoDeDadoPessoal.RG} # Conjunto com os tipos numéricos
 
 
-def _extrair_digitos(valor):
-    """Só os dígitos do valor: "529.982.247-25" → "52998224725"."""
-    return re.sub(r'\D', '', str(valor)) # Apaga tudo que não é dígito e devolve o que sobrou
-
-
-def _trocar_digitos(valor_original, digitos_novos):
-    """Coloca os novos dígitos no lugar dos antigos, mantendo pontos, traços e parênteses."""
-    digitos_novos = iter(digitos_novos) # Prepara os dígitos novos para serem usados um de cada vez, em ordem
-    return ''.join(next(digitos_novos, caractere) if caractere.isdigit() else caractere # Troca cada dígito pelo próximo dígito novo e mantém o que não é dígito
-                   for caractere in str(valor_original)) # Passa por cada caractere do valor original
-
-
 class Substituidor:
     """Gera valores sintéticos coerentes, com dicionário bijetor por tipo."""
 
@@ -216,3 +204,15 @@ class Substituidor:
         """Gera um valor falso para os tipos que não têm gerador próprio."""
         digitos = _extrair_digitos(valor) # Pega só os dígitos do valor
         return _trocar_digitos(valor, self._sortear_numeros(len(digitos))) if digitos else CARACTERE_DA_MASCARA * len(str(valor)) # Troca os dígitos por dígitos sorteados; se não houver dígitos, troca tudo por asteriscos
+
+
+def _extrair_digitos(valor):
+    """Só os dígitos do valor: "529.982.247-25" → "52998224725"."""
+    return re.sub(r'\D', '', str(valor)) # Apaga tudo que não é dígito e devolve o que sobrou
+
+
+def _trocar_digitos(valor_original, digitos_novos):
+    """Coloca os novos dígitos no lugar dos antigos, mantendo pontos, traços e parênteses."""
+    digitos_novos = iter(digitos_novos) # Prepara os dígitos novos para serem usados um de cada vez, em ordem
+    return ''.join(next(digitos_novos, caractere) if caractere.isdigit() else caractere # Troca cada dígito pelo próximo dígito novo e mantém o que não é dígito
+                   for caractere in str(valor_original)) # Passa por cada caractere do valor original

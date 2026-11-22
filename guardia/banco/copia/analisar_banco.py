@@ -76,33 +76,6 @@ _SQL_DOS_OBJETOS_NAO_COPIADOS = text("""
                          """)
 
 
-def _identificar_colunas_de_chave(tabela, metadata):
-    """Colunas em PK, FK, UNIQUE ou referenciadas por FK de outra tabela."""
-    chaves = {} # Dicionário que vai guardar cada coluna de chave e o motivo
-    for coluna in tabela.primary_key.columns: # Passa pelas colunas da chave primária
-        chaves[coluna.name] = 'PRIMARY KEY' # Guarda a coluna com o motivo "PRIMARY KEY"
-
-    for constraint in tabela.constraints: # Passa pelas constraints da tabela
-        if isinstance(constraint, UniqueConstraint): # Confere se a constraint é do tipo UNIQUE
-            for coluna in constraint.columns: # Passa pelas colunas dessa constraint
-                chaves.setdefault(coluna.name, 'UNIQUE') # Guarda a coluna com o motivo "UNIQUE", se ela ainda não estiver guardada
-
-    for indice in tabela.indexes: # Passa pelos índices da tabela
-        if indice.unique: # Confere se o índice não aceita valores repetidos
-            for coluna in indice.columns: # Passa pelas colunas desse índice
-                chaves.setdefault(coluna.name, 'UNIQUE INDEX') # Guarda a coluna com o motivo "UNIQUE INDEX", se ela ainda não estiver guardada
-
-    for chave_estrangeira in tabela.foreign_keys: # Passa pelas chaves estrangeiras da tabela
-        chaves.setdefault(chave_estrangeira.parent.name, 'FOREIGN KEY') # Guarda a coluna com o motivo "FOREIGN KEY", se ela ainda não estiver guardada
-
-    for outra_tabela in metadata.tables.values(): # Passa por todas as tabelas do banco
-        for chave_estrangeira in outra_tabela.foreign_keys: # Passa pelas chaves estrangeiras de cada uma
-            if chave_estrangeira.column.table is tabela: # Confere se a chave estrangeira aponta para a tabela que está sendo analisada
-                chaves.setdefault(chave_estrangeira.column.name, f'referenciada por {outra_tabela.name}') # Guarda a coluna apontada, com o nome da tabela que aponta para ela
-
-    return chaves # Devolve as colunas de chave e os motivos
-
-
 def analisar_banco(engine_de_origem, url_para_exibicao=''):
     """Detecta dados pessoais em todas as tabelas do schema padrão (somente leitura)."""
     metadata = MetaData() # Cria o objeto que vai guardar a estrutura do banco
@@ -176,3 +149,30 @@ def analisar_banco(engine_de_origem, url_para_exibicao=''):
 
     return AnaliseDoBanco(url=url_para_exibicao, tabelas=analises_das_tabelas, nomes_conhecidos=nomes_de_pessoas, # Devolve a análise do banco: URL, análise das tabelas e nomes de pessoas
                           objetos_nao_copiados=objetos_nao_copiados, metadata=metadata, sequencias=list(sequencias)) # Objetos não copiados, estrutura do banco e sequences
+
+
+def _identificar_colunas_de_chave(tabela, metadata):
+    """Colunas em PK, FK, UNIQUE ou referenciadas por FK de outra tabela."""
+    chaves = {} # Dicionário que vai guardar cada coluna de chave e o motivo
+    for coluna in tabela.primary_key.columns: # Passa pelas colunas da chave primária
+        chaves[coluna.name] = 'PRIMARY KEY' # Guarda a coluna com o motivo "PRIMARY KEY"
+
+    for constraint in tabela.constraints: # Passa pelas constraints da tabela
+        if isinstance(constraint, UniqueConstraint): # Confere se a constraint é do tipo UNIQUE
+            for coluna in constraint.columns: # Passa pelas colunas dessa constraint
+                chaves.setdefault(coluna.name, 'UNIQUE') # Guarda a coluna com o motivo "UNIQUE", se ela ainda não estiver guardada
+
+    for indice in tabela.indexes: # Passa pelos índices da tabela
+        if indice.unique: # Confere se o índice não aceita valores repetidos
+            for coluna in indice.columns: # Passa pelas colunas desse índice
+                chaves.setdefault(coluna.name, 'UNIQUE INDEX') # Guarda a coluna com o motivo "UNIQUE INDEX", se ela ainda não estiver guardada
+
+    for chave_estrangeira in tabela.foreign_keys: # Passa pelas chaves estrangeiras da tabela
+        chaves.setdefault(chave_estrangeira.parent.name, 'FOREIGN KEY') # Guarda a coluna com o motivo "FOREIGN KEY", se ela ainda não estiver guardada
+
+    for outra_tabela in metadata.tables.values(): # Passa por todas as tabelas do banco
+        for chave_estrangeira in outra_tabela.foreign_keys: # Passa pelas chaves estrangeiras de cada uma
+            if chave_estrangeira.column.table is tabela: # Confere se a chave estrangeira aponta para a tabela que está sendo analisada
+                chaves.setdefault(chave_estrangeira.column.name, f'referenciada por {outra_tabela.name}') # Guarda a coluna apontada, com o nome da tabela que aponta para ela
+
+    return chaves # Devolve as colunas de chave e os motivos
